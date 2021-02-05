@@ -16,4 +16,5 @@ Project is created with:
 * EntityFramework 6.4.4
 * FluentValidation 7.1.1
 
-#
+### Other Camp Works
+[repl.it/@iiremozkal](https://repl.it/@iiremozkal)

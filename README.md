@@ -3,7 +3,7 @@
 Kodlama.io - Software Bootcamp.
 
 ### General info
-The project consists of 4 layers: Entities, DataAccess, Business and ConsoleUI.  
+The project consists of 5 layers: Entities, DataAccess, Business, ConsoleUI and Core.  
 For each entity (car, brand, color), there is a menu screen for related operations in ConsoleManager. Each operation is controlled by its own manager and the manager uses the Dal classes to implement crud operations. All data access layers implement generic IEntityRepository interface as a common outline.  
 Project uses EntityFramework to connect to the corresponding database.  
 Fluentvalidation is used to give some restrictions on the operation controls of the car entity.

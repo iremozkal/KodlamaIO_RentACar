@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class ColorManager: IColorManager
+    public class ColorManager : IColorManager
     {
         private readonly IColorDal colorDal;
 

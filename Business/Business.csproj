@@ -45,6 +45,7 @@
     <Compile Include="Abstract\IBrandManager.cs" />
     <Compile Include="Abstract\ICarManager.cs" />
     <Compile Include="Abstract\IColorManager.cs" />
+    <Compile Include="Abstract\IManager.cs" />
     <Compile Include="Concrete\BrandManager.cs" />
     <Compile Include="Concrete\CarManager.cs" />
     <Compile Include="Concrete\ColorManager.cs" />
@@ -55,15 +56,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{689654c7-c64a-491f-a7bd-09527164a127}</Project>
       <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{371d99a3-75ab-442b-ae03-7c1ac657a039}</Project>
+      <Project>{cb86778a-d9ee-45eb-9bd0-668a66d3bd57}</Project>
       <Name>DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entities\Entities.csproj">

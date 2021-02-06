@@ -7,15 +7,10 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IColorManager
+    public interface IColorManager : IManager<Color>
     {
-        void Add(Color color);
-        void Update(Color color);
-        void Delete(Color color);
         Color GetColorById(int id);
         int GetCountOfAllColors();
-        bool IsExistById(int id);
         List<Color> GetAllColors();
-        void WriteAll(List<Color> colorList);
     }
 }

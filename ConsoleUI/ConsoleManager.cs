@@ -1,15 +1,13 @@
-﻿using CarRent.Business.Concrete;
-using CarRent.DataAccess.Concrete.EntityFramework;
-using CarRent.DataAccess.Concrete.InMemory;
-using CarRent.Entities;
-using CarRent.Entities.Concrete;
+﻿using Business.Concrete;
+using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRent.ConsoleUI
+namespace ConsoleUI
 {
     public class ConsoleManager
     {

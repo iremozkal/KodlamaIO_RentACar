@@ -1,13 +1,13 @@
-﻿using CarRent.Business.Abstract;
-using CarRent.DataAccess.Abstract;
-using CarRent.Entities.Concrete;
+﻿using Business.Abstract;
+using DataAccess.Abstract;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRent.Business.Concrete
+namespace Business.Concrete
 {
     public class ColorManager: IColorManager
     {

@@ -1,11 +1,11 @@
-﻿using CarRent.Entities.Abstract;
+﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRent.Entities.Concrete
+namespace Entities.Concrete
 {
     public class Car : IEntity
     {

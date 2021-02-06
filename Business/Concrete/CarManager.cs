@@ -1,7 +1,7 @@
-﻿using CarRent.Business.Abstract;
-using CarRent.Business.Validators;
-using CarRent.DataAccess.Abstract;
-using CarRent.Entities.Concrete;
+﻿using Business.Abstract;
+using Business.Validators;
+using DataAccess.Abstract;
+using Entities.Concrete;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRent.Business.Concrete
+namespace Business.Concrete
 {
     public class CarManager : ICarManager
     {

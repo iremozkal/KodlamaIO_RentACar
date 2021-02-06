@@ -1,4 +1,4 @@
-﻿using CarRent.Entities.Concrete;
+﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRent.DataAccess.Concrete.EntityFramework
+namespace DataAccess.Concrete.EntityFramework
 {
     public class CarRentContext : DbContext
     {

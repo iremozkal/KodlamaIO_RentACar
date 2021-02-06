@@ -1,15 +1,14 @@
-﻿//using CarRent.ConsoleUI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRent.ConsoleUI
+namespace ConsoleUI
 {
     public class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
             ConsoleManager consoleManager = new ConsoleManager();
             consoleManager.MainScreen();

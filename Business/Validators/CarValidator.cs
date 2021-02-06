@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using CarRent.Entities.Concrete;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRent.Business.Validators
+namespace Business.Validators
 {
     public class CarValidator : AbstractValidator<Car>
     {

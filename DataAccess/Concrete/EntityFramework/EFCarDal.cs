@@ -1,17 +1,14 @@
-﻿using FluentValidation.Results;
-using CarRent.DataAccess.Abstract;
-using CarRent.Entities.Concrete;
-using CarRent.Business.Validators;
+﻿using DataAccess.Abstract;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq.Expressions;
-using CarRent.DataAccess.Concrete.EntityFramework;
-using System.Data.Entity;
 
-namespace CarRent.DataAccess.Concrete.InMemory
+namespace DataAccess.Concrete.EntityFramework
 {
     public class EFCarDal : ICarDal
     {

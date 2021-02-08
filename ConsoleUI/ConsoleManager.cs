@@ -41,11 +41,11 @@ namespace ConsoleUI
                             IsMainMenuOpen = true;
                             break;
                         case 2:
-                            BrandMenuScreen(brandManager);
+                            BrandMenuScreen(brandManager, carManager);
                             IsMainMenuOpen = true;
                             break;
                         case 3:
-                            ColorMenuScreen(colorManager);
+                            ColorMenuScreen(colorManager, carManager);
                             IsMainMenuOpen = true;
                             break;
                         case 4:
@@ -106,7 +106,7 @@ namespace ConsoleUI
                             if (carManager.GetCountOfAllCars() != 0)
                             {
                                 Console.WriteLine("\nList of All Cars");
-                                carManager.WriteAll(carManager.GetAllCars());
+                                carManager.WriteAllCarDetails(carManager.GetAllCarDetails());
                             }
                             Console.WriteLine("Count of All Cars: " + carManager.GetCountOfAllCars());
                             break;
@@ -204,29 +204,63 @@ namespace ConsoleUI
 
         private void CarMenu_GetCarsByBrandId(CarManager carManager, BrandManager brandManager)
         {
-            var brandIdList = carManager.GetAllCars().Select(x => x.BrandId).Distinct();
+            Console.WriteLine("\nList of All Brands");
+            brandManager.WriteAll(brandManager.GetAllBrands());
 
-            foreach (int id in brandIdList)
+            bool IsExist = false;
+            int id = 0;
+
+            while (!IsExist)
             {
-                Console.WriteLine("Brand #{0} : {1}", id, brandManager.GetBrandById(id).Name);
-                var carList = carManager.GetAllCarsByBrandId(id);
-                carManager.WriteAll(carList);
+                Console.Write("Choose a Brand ID: ");
+                id = Convert.ToInt32(Console.ReadLine());
+                IsExist = carManager.IsExistById(id);
+                if (!IsExist)
+                {
+                    Console.Write("(*) There is no brand with this ID. Try again. Brand ID: ");
+                    id = Convert.ToInt32(Console.ReadLine());
+                    IsExist = carManager.IsExistById(id);
+                }
             }
+            var brandsOfCars = carManager.GetAllCarDetails(x => x.ColorId == id);
+            if (brandsOfCars.Count != 0)
+            {
+                Console.WriteLine("List of all cars with {0} brand : ", brandManager.GetBrandById(id).Name);
+                carManager.WriteAllCarDetails(brandsOfCars);
+            }
+            else Console.WriteLine("(-) There is no car with this brand.");
         }
 
         private void CarMenu_GetCarsByColorId(CarManager carManager, ColorManager colorManager)
         {
-            var colorIdList = carManager.GetAllCars().Select(x => x.ColorId).Distinct();
+            Console.WriteLine("\nList of All Colors");
+            colorManager.WriteAll(colorManager.GetAllColors());
 
-            foreach (int id in colorIdList)
+            bool IsExist = false;
+            int id = 0;
+
+            while (!IsExist)
             {
-                Console.WriteLine("Color #{0} : {1}", id, colorManager.GetColorById(id).Name);
-                var carList = carManager.GetAllCarsByColorId(id);
-                carManager.WriteAll(carList);
+                Console.Write("Choose a Color ID: ");
+                id = Convert.ToInt32(Console.ReadLine());
+                IsExist = carManager.IsExistById(id);
+                if (!IsExist)
+                {
+                    Console.Write("(*) There is no color with this ID. Try again. Color ID: ");
+                    id = Convert.ToInt32(Console.ReadLine());
+                    IsExist = carManager.IsExistById(id);
+                }
             }
+            var colorsOfCars = carManager.GetAllCarDetails(x => x.ColorId == id);
+            if (colorsOfCars.Count != 0)
+            {
+                Console.WriteLine("List of all cars with {0} color : ", colorManager.GetColorById(id).Name);
+                carManager.WriteAllCarDetails(colorsOfCars);
+            }
+            else Console.WriteLine("(-) There is no car with this color.");
         }
 
-        private void BrandMenuScreen(BrandManager brandManager)
+        private void BrandMenuScreen(BrandManager brandManager, CarManager carManager)
         {
             bool IsMenuOpen = true;
             while (IsMenuOpen)
@@ -236,7 +270,8 @@ namespace ConsoleUI
                 Console.WriteLine(" 2 - Update a Brand");
                 Console.WriteLine(" 3 - Delete a Brand");
                 Console.WriteLine(" 4 - View the List of Brands");
-                Console.WriteLine(" 5 - Go back to Main Menu");
+                Console.WriteLine(" 5 - View Cars by Brand Id");
+                Console.WriteLine(" 6 - Go back to Main Menu");
                 Console.WriteLine("------------------------------");
 
                 string choice = Console.ReadLine();
@@ -269,6 +304,9 @@ namespace ConsoleUI
                             Console.WriteLine("Count of All Brands: " + brandManager.GetAllBrands().Count);
                             break;
                         case 5:
+                            CarMenu_GetCarsByBrandId(carManager, brandManager);
+                            break;
+                        case 6:
                             IsMenuOpen = false;
                             break;
                         default:
@@ -338,10 +376,8 @@ namespace ConsoleUI
             brandManager.Delete(brandManager.GetBrandById(searchID));
         }
 
-        private void ColorMenuScreen(ColorManager colorManager)
+        private void ColorMenuScreen(ColorManager colorManager, CarManager carManager)
         {
-            //int id = colorManager.GetAllColors().Count + 1; // Next ID to insert
-
             bool IsMenuOpen = true;
             while (IsMenuOpen)
             {
@@ -350,7 +386,8 @@ namespace ConsoleUI
                 Console.WriteLine(" 2 - Update a Color");
                 Console.WriteLine(" 3 - Delete a Color");
                 Console.WriteLine(" 4 - View the List of Color");
-                Console.WriteLine(" 5 - Go back to Main Menu");
+                Console.WriteLine(" 5 - View Cars by Color Id");
+                Console.WriteLine(" 6 - Go back to Main Menu");
                 Console.WriteLine("------------------------------");
 
                 string choice = Console.ReadLine();
@@ -383,6 +420,9 @@ namespace ConsoleUI
                             Console.WriteLine("Count of All Colors: " + colorManager.GetAllColors().Count);
                             break;
                         case 5:
+                            CarMenu_GetCarsByColorId(carManager, colorManager);
+                            break;
+                        case 6:
                             IsMenuOpen = false;
                             break;
                         default:

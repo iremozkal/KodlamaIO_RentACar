@@ -2,10 +2,12 @@
 using Business.Validators;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -72,7 +74,7 @@ namespace Business.Concrete
 
         public bool IsExistById(int id)
         {
-            return this.carDal.IsExists(x=>x.Id == id);
+            return this.carDal.IsExists(x => x.Id == id);
         }
 
         public List<Car> GetAllCars()
@@ -102,11 +104,24 @@ namespace Business.Concrete
             return this.carDal.GetAll(c => c.ModelYear == year);
         }
 
+        public List<CarDetailDto> GetAllCarDetails(Expression<Func<Car, bool>> filter = null)
+        {
+            return this.carDal.GetCarDetails(filter);
+        }
+
         public void WriteAll(List<Car> carList)
         {
             foreach (Car c in carList)
-                Console.WriteLine("ID: #{0}   BrandID: {1}   ColorID: {2}   Model: {3}   Fiyat: {4}   Açıklama: {5}",
+                Console.WriteLine("ID: #{0,-5}   BrandID: {1,-10}   ColorID: {2,-10}   Model: {3,-10}   Price: {4,-5}   Description: {5}",
                     c.Id, c.BrandId, c.ColorId, c.ModelYear, c.DailyPrice.ToString("0.00"), c.Description);
+            Console.WriteLine();
+        }
+
+        public void WriteAllCarDetails(List<CarDetailDto> carDtoList)
+        {
+            foreach (CarDetailDto c in carDtoList)
+                Console.WriteLine("ID: #{0,-5}   Name: {1,-10}   Brand: {2,-10}   Color: {3,-10}   Daily Price: {4,-5}",
+                    c.CarId, c.CarName, c.BrandName, c.ColorName, c.DailyPrice.ToString("0.00"));
             Console.WriteLine();
         }
     }

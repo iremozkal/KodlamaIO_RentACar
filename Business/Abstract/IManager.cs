@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Utilities.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Business.Abstract
 {
     public interface IManager<T> where T : IEntity
     {
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
-        bool IsExistById(int id);
+        IResult Add(T entity);
+        IResult Update(T entity);
+        IResult Delete(T entity);
+        IResult IsExistById(int id);
         void WriteAll(List<T> entityList);
     }
 }

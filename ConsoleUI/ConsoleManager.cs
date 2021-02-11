@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Business.Constants;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
@@ -28,10 +29,7 @@ namespace ConsoleUI
                 Console.WriteLine("-----------------------------");
 
                 string choice = Console.ReadLine();
-                if (choice == "")
-                {
-                    Console.WriteLine("Wrong! Try again.");
-                }
+                if (choice == "") Console.WriteLine("Wrong! Try again.");
                 else
                 {
                     switch (Int32.Parse(choice))
@@ -76,10 +74,7 @@ namespace ConsoleUI
                 Console.WriteLine("------------------------------");
 
                 string choice = Console.ReadLine();
-                if (choice == "")
-                {
-                    Console.WriteLine("Wrong! Try again.");
-                }
+                if (choice == "") Console.WriteLine("Wrong! Try again.");
                 else
                 {
                     switch (Int32.Parse(choice))
@@ -106,7 +101,7 @@ namespace ConsoleUI
                             if (carManager.GetCountOfAllCars() != 0)
                             {
                                 Console.WriteLine("\nList of All Cars");
-                                carManager.WriteAllCarDetails(carManager.GetAllCarDetails());
+                                carManager.WriteAllCarDetails(carManager.GetAllCarDetails().Data);
                             }
                             Console.WriteLine("Count of All Cars: " + carManager.GetCountOfAllCars());
                             break;
@@ -141,7 +136,7 @@ namespace ConsoleUI
         private void CarMenu_Update(CarManager carManager)
         {
             Console.WriteLine("\nList of All Cars");
-            carManager.WriteAll(carManager.GetAllCars());
+            carManager.WriteAll(carManager.GetAllCars().Data);
 
             bool IsExist = false;
             int searchID = 0;
@@ -150,12 +145,12 @@ namespace ConsoleUI
             {
                 Console.Write("-> Enter the ID of the car you want to update: ");
                 searchID = Convert.ToInt32(Console.ReadLine());
-                IsExist = carManager.IsExistById(searchID);
+                IsExist = carManager.IsExistById(searchID).Success;
                 if (!IsExist)
                 {
-                    Console.Write("(*) There is no car registered with this ID. Try again. ID: ");
+                    Console.Write(Messages.CarNotExist + " Try again. ID: ");
                     searchID = Convert.ToInt32(Console.ReadLine());
-                    IsExist = carManager.IsExistById(searchID);
+                    IsExist = carManager.IsExistById(searchID).Success;
                 }
             }
 
@@ -181,7 +176,7 @@ namespace ConsoleUI
         private void CarMenu_Delete(CarManager carManager)
         {
             Console.WriteLine("\nList of All Cars");
-            carManager.WriteAll(carManager.GetAllCars());
+            carManager.WriteAll(carManager.GetAllCars().Data);
 
             int searchID = 0;
             bool IsExist = false;
@@ -190,22 +185,22 @@ namespace ConsoleUI
             {
                 Console.Write("-> Enter the ID of the car you want to delete: ");
                 searchID = Convert.ToInt32(Console.ReadLine());
-                IsExist = carManager.IsExistById(searchID);
+                IsExist = carManager.IsExistById(searchID).Success;
                 if (!IsExist)
                 {
-                    Console.Write("(*) There is no car registered with this ID. Try again. ID: ");
+                    Console.Write(Messages.CarNotExist + " Try again. ID: ");
                     searchID = Convert.ToInt32(Console.ReadLine());
-                    IsExist = carManager.IsExistById(searchID);
+                    IsExist = carManager.IsExistById(searchID).Success;
                 }
             }
 
-            carManager.Delete(carManager.GetCarById(searchID));
+            carManager.Delete(carManager.GetCarById(searchID).Data);
         }
 
         private void CarMenu_GetCarsByBrandId(CarManager carManager, BrandManager brandManager)
         {
             Console.WriteLine("\nList of All Brands");
-            brandManager.WriteAll(brandManager.GetAllBrands());
+            brandManager.WriteAll(brandManager.GetAllBrands().Data);
 
             bool IsExist = false;
             int id = 0;
@@ -214,18 +209,18 @@ namespace ConsoleUI
             {
                 Console.Write("Choose a Brand ID: ");
                 id = Convert.ToInt32(Console.ReadLine());
-                IsExist = carManager.IsExistById(id);
+                IsExist = carManager.IsExistById(id).Success;
                 if (!IsExist)
                 {
-                    Console.Write("(*) There is no brand with this ID. Try again. Brand ID: ");
+                    Console.Write(Messages.BrandNotExist + " Try again. Brand ID: ");
                     id = Convert.ToInt32(Console.ReadLine());
-                    IsExist = carManager.IsExistById(id);
+                    IsExist = carManager.IsExistById(id).Success;
                 }
             }
-            var brandsOfCars = carManager.GetAllCarDetails(x => x.ColorId == id);
+            var brandsOfCars = carManager.GetAllCarDetails(x => x.ColorId == id).Data;
             if (brandsOfCars.Count != 0)
             {
-                Console.WriteLine("List of all cars with {0} brand : ", brandManager.GetBrandById(id).Name);
+                Console.WriteLine("List of all cars with {0} brand : ", brandManager.GetBrandById(id).Data.Name);
                 carManager.WriteAllCarDetails(brandsOfCars);
             }
             else Console.WriteLine("(-) There is no car with this brand.");
@@ -234,7 +229,7 @@ namespace ConsoleUI
         private void CarMenu_GetCarsByColorId(CarManager carManager, ColorManager colorManager)
         {
             Console.WriteLine("\nList of All Colors");
-            colorManager.WriteAll(colorManager.GetAllColors());
+            colorManager.WriteAll(colorManager.GetAllColors().Data);
 
             bool IsExist = false;
             int id = 0;
@@ -243,18 +238,18 @@ namespace ConsoleUI
             {
                 Console.Write("Choose a Color ID: ");
                 id = Convert.ToInt32(Console.ReadLine());
-                IsExist = carManager.IsExistById(id);
+                IsExist = carManager.IsExistById(id).Success;
                 if (!IsExist)
                 {
-                    Console.Write("(*) There is no color with this ID. Try again. Color ID: ");
+                    Console.Write(Messages.ColorNotExist + " Try again. Color ID: ");
                     id = Convert.ToInt32(Console.ReadLine());
-                    IsExist = carManager.IsExistById(id);
+                    IsExist = carManager.IsExistById(id).Success;
                 }
             }
-            var colorsOfCars = carManager.GetAllCarDetails(x => x.ColorId == id);
+            var colorsOfCars = carManager.GetAllCarDetails(x => x.ColorId == id).Data;
             if (colorsOfCars.Count != 0)
             {
-                Console.WriteLine("List of all cars with {0} color : ", colorManager.GetColorById(id).Name);
+                Console.WriteLine("List of all cars with {0} color : ", colorManager.GetColorById(id).Data.Name);
                 carManager.WriteAllCarDetails(colorsOfCars);
             }
             else Console.WriteLine("(-) There is no car with this color.");
@@ -275,10 +270,7 @@ namespace ConsoleUI
                 Console.WriteLine("------------------------------");
 
                 string choice = Console.ReadLine();
-                if (choice == "")
-                {
-                    Console.WriteLine("Wrong! Try again.");
-                }
+                if (choice == "") Console.WriteLine("Wrong! Try again.");
                 else
                 {
                     switch (Int32.Parse(choice))
@@ -289,19 +281,19 @@ namespace ConsoleUI
                             break;
                         case 2:
                             BrandMenu_Update(brandManager);
-                            Console.WriteLine("Count of All Brands: " + brandManager.GetAllBrands().Count);
+                            Console.WriteLine("Count of All Brands: " + brandManager.GetCountOfAllBrands());
                             break;
                         case 3:
                             BrandMenu_Delete(brandManager);
-                            Console.WriteLine("Count of All Brands: " + brandManager.GetAllBrands().Count);
+                            Console.WriteLine("Count of All Brands: " + brandManager.GetCountOfAllBrands());
                             break;
                         case 4:
-                            if (brandManager.GetAllBrands().Count != 0)
+                            if (brandManager.GetCountOfAllBrands() != 0)
                             {
                                 Console.WriteLine("\nList of All Brands");
-                                brandManager.WriteAll(brandManager.GetAllBrands());
+                                brandManager.WriteAll(brandManager.GetAllBrands().Data);
                             }
-                            Console.WriteLine("Count of All Brands: " + brandManager.GetAllBrands().Count);
+                            Console.WriteLine("Count of All Brands: " + brandManager.GetCountOfAllBrands());
                             break;
                         case 5:
                             CarMenu_GetCarsByBrandId(carManager, brandManager);
@@ -328,7 +320,7 @@ namespace ConsoleUI
         private void BrandMenu_Update(BrandManager brandManager)
         {
             Console.WriteLine("\nList of All Brands");
-            brandManager.WriteAll(brandManager.GetAllBrands());
+            brandManager.WriteAll(brandManager.GetAllBrands().Data);
 
             bool IsExist = false;
             int searchID = 0;
@@ -337,12 +329,12 @@ namespace ConsoleUI
             {
                 Console.Write("-> Enter the ID of the brand you want to update: ");
                 searchID = Convert.ToInt32(Console.ReadLine());
-                IsExist = brandManager.IsExistById(searchID);
+                IsExist = brandManager.IsExistById(searchID).Success;
                 if (!IsExist)
                 {
-                    Console.Write("(*) There is no brand registered with this ID. Try again. ID: ");
+                    Console.Write(Messages.BrandNotExist + " Try again. Brand ID: ");
                     searchID = Convert.ToInt32(Console.ReadLine());
-                    IsExist = brandManager.IsExistById(searchID);
+                    IsExist = brandManager.IsExistById(searchID).Success;
                 }
             }
 
@@ -355,7 +347,7 @@ namespace ConsoleUI
         private void BrandMenu_Delete(BrandManager brandManager)
         {
             Console.WriteLine("\nList of All Brands");
-            brandManager.WriteAll(brandManager.GetAllBrands());
+            brandManager.WriteAll(brandManager.GetAllBrands().Data);
 
             bool IsExist = false;
             int searchID = 0;
@@ -364,16 +356,16 @@ namespace ConsoleUI
             {
                 Console.Write("-> Enter the ID of the brand you want to update: ");
                 searchID = Convert.ToInt32(Console.ReadLine());
-                IsExist = brandManager.IsExistById(searchID);
+                IsExist = brandManager.IsExistById(searchID).Success;
                 if (!IsExist)
                 {
-                    Console.Write("(*) There is no brand registered with this ID. Try again. ID: ");
+                    Console.Write(Messages.BrandNotExist + " Try again. Brand ID: ");
                     searchID = Convert.ToInt32(Console.ReadLine());
-                    IsExist = brandManager.IsExistById(searchID);
+                    IsExist = brandManager.IsExistById(searchID).Success;
                 }
             }
 
-            brandManager.Delete(brandManager.GetBrandById(searchID));
+            brandManager.Delete(brandManager.GetBrandById(searchID).Data);
         }
 
         private void ColorMenuScreen(ColorManager colorManager, CarManager carManager)
@@ -391,33 +383,30 @@ namespace ConsoleUI
                 Console.WriteLine("------------------------------");
 
                 string choice = Console.ReadLine();
-                if (choice == "")
-                {
-                    Console.WriteLine("Wrong! Try again.");
-                }
+                if (choice == "") Console.WriteLine("Wrong! Try again.");
                 else
                 {
                     switch (Int32.Parse(choice))
                     {
                         case 1:
                             ColorMenu_Save(colorManager);
-                            Console.WriteLine("Count of All Colors: " + colorManager.GetAllColors().Count);
+                            Console.WriteLine("Count of All Colors: " + colorManager.GetCountOfAllColors());
                             break;
                         case 2:
                             ColorMenu_Update(colorManager);
-                            Console.WriteLine("Count of All Colors: " + colorManager.GetAllColors().Count);
+                            Console.WriteLine("Count of All Colors: " + colorManager.GetCountOfAllColors());
                             break;
                         case 3:
                             ColorMenu_Delete(colorManager);
-                            Console.WriteLine("Count of All Colors: " + colorManager.GetAllColors().Count);
+                            Console.WriteLine("Count of All Colors: " + colorManager.GetCountOfAllColors());
                             break;
                         case 4:
-                            if (colorManager.GetAllColors().Count != 0)
+                            if (colorManager.GetCountOfAllColors() != 0)
                             {
                                 Console.WriteLine("\nList of All Colors");
-                                colorManager.WriteAll(colorManager.GetAllColors());
+                                colorManager.WriteAll(colorManager.GetAllColors().Data);
                             }
-                            Console.WriteLine("Count of All Colors: " + colorManager.GetAllColors().Count);
+                            Console.WriteLine("Count of All Colors: " + colorManager.GetCountOfAllColors());
                             break;
                         case 5:
                             CarMenu_GetCarsByColorId(carManager, colorManager);
@@ -444,7 +433,7 @@ namespace ConsoleUI
         private void ColorMenu_Update(ColorManager colorManager)
         {
             Console.WriteLine("\nList of All Colors");
-            colorManager.WriteAll(colorManager.GetAllColors());
+            colorManager.WriteAll(colorManager.GetAllColors().Data);
 
             bool IsExist = false;
             int searchID = 0;
@@ -453,12 +442,12 @@ namespace ConsoleUI
             {
                 Console.Write("-> Enter the ID of the color you want to update: ");
                 searchID = Convert.ToInt32(Console.ReadLine());
-                IsExist = colorManager.IsExistById(searchID);
+                IsExist = colorManager.IsExistById(searchID).Success;
                 if (!IsExist)
                 {
-                    Console.Write("(*) There is no color registered with this ID. Try again. ID: ");
+                    Console.Write(Messages.ColorNotExist + " Try again. Color ID: ");
                     searchID = Convert.ToInt32(Console.ReadLine());
-                    IsExist = colorManager.IsExistById(searchID);
+                    IsExist = colorManager.IsExistById(searchID).Success;
                 }
             }
 
@@ -471,7 +460,7 @@ namespace ConsoleUI
         private void ColorMenu_Delete(ColorManager colorManager)
         {
             Console.WriteLine("\nList of All Colors");
-            colorManager.WriteAll(colorManager.GetAllColors());
+            colorManager.WriteAll(colorManager.GetAllColors().Data);
 
             bool IsExist = false;
             int searchID = 0;
@@ -480,16 +469,16 @@ namespace ConsoleUI
             {
                 Console.Write("-> Enter the ID of the color you want to update: ");
                 searchID = Convert.ToInt32(Console.ReadLine());
-                IsExist = colorManager.IsExistById(searchID);
+                IsExist = colorManager.IsExistById(searchID).Success;
                 if (!IsExist)
                 {
-                    Console.Write("(*) There is no color registered with this ID. Try again. ID: ");
+                    Console.Write(Messages.ColorNotExist + " Try again. Color ID: ");
                     searchID = Convert.ToInt32(Console.ReadLine());
-                    IsExist = colorManager.IsExistById(searchID);
+                    IsExist = colorManager.IsExistById(searchID).Success;
                 }
             }
 
-            colorManager.Delete(colorManager.GetColorById(searchID));
+            colorManager.Delete(colorManager.GetColorById(searchID).Data);
         }
     }
 }

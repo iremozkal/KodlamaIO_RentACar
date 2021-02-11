@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -18,27 +20,27 @@ namespace Business.Concrete
             colorDal = _colorDal;
         }
 
-        public void Add(Color color)
+        public IResult Add(Color color)
         {
             this.colorDal.Add(color);
-            Console.WriteLine("(+) Insert operation is succesfully done.");
+            return new SuccessResult(Messages.AddSuccess);
         }
 
-        public void Update(Color color)
+        public IResult Update(Color color)
         {
             this.colorDal.Update(color);
-            Console.WriteLine("(+) Update operation is succesfully done.");
+            return new SuccessResult(Messages.UpdateSuccess);
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
             this.colorDal.Delete(color);
-            Console.WriteLine("(+) Delete operation is succesfully done.");
+            return new SuccessResult(Messages.DeleteSuccess);
         }
 
-        public Color GetColorById(int id)
+        public IDataResult<Color> GetColorById(int id)
         {
-            return this.colorDal.Get(c => c.Id == id);
+            return new SuccessDataResult<Color>(this.colorDal.Get(c => c.Id == id));
         }
 
         public int GetCountOfAllColors()
@@ -46,14 +48,14 @@ namespace Business.Concrete
             return this.colorDal.GetCount();
         }
 
-        public bool IsExistById(int id)
+        public IResult IsExistById(int id)
         {
-            return this.colorDal.IsExists(x => x.Id == id);
+            return new Result(this.colorDal.IsExists(x => x.Id == id));
         }
 
-        public List<Color> GetAllColors()
+        public IDataResult<List<Color>> GetAllColors()
         {
-            return this.colorDal.GetAll();
+            return new SuccessDataResult<List<Color>>(this.colorDal.GetAll());
         }
 
         public void WriteAll(List<Color> colorList)

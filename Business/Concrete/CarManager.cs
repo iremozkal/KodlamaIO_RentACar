@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Business.Validators;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -24,47 +26,49 @@ namespace Business.Concrete
             carDal = _carDal;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
             ValidationResult result = this.carValidator.Validate(car);
 
             if (result.IsValid)
             {
                 this.carDal.Add(car);
-                Console.WriteLine("(+) Insert operation is succesfully done.");
+                return new SuccessResult(Messages.AddSuccess);
             }
             else
             {
-                foreach (var error in result.Errors)
-                    Console.WriteLine("(-) Operation failed! " + error.ErrorMessage);
+                var errorMessage = Messages.AddError + "\n";
+                foreach (var error in result.Errors) errorMessage += error.ErrorMessage + "\n";
+                return new ErrorResult(errorMessage);
             }
         }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
             ValidationResult result = this.carValidator.Validate(car);
 
             if (result.IsValid)
             {
                 this.carDal.Update(car);
-                Console.WriteLine("(+) Update operation is succesfully done.");
+                return new SuccessResult(Messages.UpdateSuccess);
             }
             else
             {
-                foreach (var error in result.Errors)
-                    Console.WriteLine("(-) Operation failed! " + error.ErrorMessage);
+                var errorMessage = Messages.UpdateError + "\n";
+                foreach (var error in result.Errors) errorMessage += error.ErrorMessage + "\n";
+                return new ErrorResult(errorMessage);
             }
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
             this.carDal.Delete(car);
-            Console.WriteLine("(+) Delete operation is succesfully done.");
+            return new SuccessResult(Messages.DeleteSuccess);
         }
 
-        public Car GetCarById(int id)
+        public IDataResult<Car> GetCarById(int id)
         {
-            return this.carDal.Get(c => c.Id == id);
+            return new SuccessDataResult<Car>(this.carDal.Get(c => c.Id == id));
         }
 
         public int GetCountOfAllCars()
@@ -72,41 +76,41 @@ namespace Business.Concrete
             return this.carDal.GetCount();
         }
 
-        public bool IsExistById(int id)
+        public IResult IsExistById(int id)
         {
-            return this.carDal.IsExists(x => x.Id == id);
+            return new Result(this.carDal.IsExists(x => x.Id == id));
         }
 
-        public List<Car> GetAllCars()
+        public IDataResult<List<Car>> GetAllCars()
         {
-            return this.carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(this.carDal.GetAll());
         }
 
-        public List<Car> GetAllCarsByBrandId(int id)
+        public IDataResult<List<Car>> GetAllCarsByBrandId(int id)
         {
-            return this.carDal.GetAll(c => c.BrandId == id);
+            return new SuccessDataResult<List<Car>>(this.carDal.GetAll(c => c.BrandId == id));
         }
 
-        public List<Car> GetAllCarsByColorId(int id)
+        public IDataResult<List<Car>> GetAllCarsByColorId(int id)
         {
-            return this.carDal.GetAll(c => c.ColorId == id);
-
-        }
-
-        public List<Car> GetAllCarsByDailyPrice(decimal min, decimal max)
-        {
-            return this.carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max);
+            return new SuccessDataResult<List<Car>>(this.carDal.GetAll(c => c.ColorId == id));
 
         }
 
-        public List<Car> GetAllCarsByModelYear(int year)
+        public IDataResult<List<Car>> GetAllCarsByDailyPrice(decimal min, decimal max)
         {
-            return this.carDal.GetAll(c => c.ModelYear == year);
+            return new SuccessDataResult<List<Car>>(this.carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
+
         }
 
-        public List<CarDetailDto> GetAllCarDetails(Expression<Func<Car, bool>> filter = null)
+        public IDataResult<List<Car>> GetAllCarsByModelYear(int year)
         {
-            return this.carDal.GetCarDetails(filter);
+            return new SuccessDataResult<List<Car>>(this.carDal.GetAll(c => c.ModelYear == year));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetAllCarDetails(Expression<Func<Car, bool>> filter = null)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(this.carDal.GetCarDetails(filter));
         }
 
         public void WriteAll(List<Car> carList)

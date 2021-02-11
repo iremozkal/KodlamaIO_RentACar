@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -18,27 +20,27 @@ namespace Business.Concrete
             brandDal = _brandDal;
         }
 
-        public void Add(Brand brand)
+        public IResult Add(Brand brand)
         {
             this.brandDal.Add(brand);
-            Console.WriteLine("(+) Insert operation is succesfully done.");
+            return new SuccessResult(Messages.AddSuccess);
         }
 
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             this.brandDal.Update(brand);
-            Console.WriteLine("(+) Update operation is succesfully done.");
+            return new SuccessResult(Messages.UpdateSuccess);
         }
 
-        public void Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
             this.brandDal.Delete(brand);
-            Console.WriteLine("(+) Delete operation is succesfully done.");
+            return new SuccessResult(Messages.DeleteSuccess);
         }
 
-        public Brand GetBrandById(int id)
+        public IDataResult<Brand> GetBrandById(int id)
         {
-            return this.brandDal.Get(c => c.Id == id);
+            return new SuccessDataResult<Brand>(this.brandDal.Get(c => c.Id == id));
         }
 
         public int GetCountOfAllBrands()
@@ -46,14 +48,14 @@ namespace Business.Concrete
             return this.brandDal.GetCount();
         }
 
-        public bool IsExistById(int id)
+        public IResult IsExistById(int id)
         {
-            return this.brandDal.IsExists(x => x.Id == id);
+            return new Result(this.brandDal.IsExists(x => x.Id == id));
         }
 
-        public List<Brand> GetAllBrands()
+        public IDataResult<List<Brand>> GetAllBrands()
         {
-            return this.brandDal.GetAll();
+            return new SuccessDataResult<List<Brand>>(this.brandDal.GetAll());
         }
 
         public void WriteAll(List<Brand> brandList)

@@ -116,7 +116,7 @@ namespace Business.Concrete
         public void WriteAll(List<Car> carList)
         {
             foreach (Car c in carList)
-                Console.WriteLine("ID: #{0,-5}   BrandID: {1,-10}   ColorID: {2,-10}   Model: {3,-10}   Price: {4,-5}   Description: {5}",
+                Console.WriteLine("ID: #{0,-5}   BrandID: {1,-10}   ColorID: {2,-10}   Model: {3,-10}   Price: {4,-10}   Description: {5}",
                     c.Id, c.BrandId, c.ColorId, c.ModelYear, c.DailyPrice.ToString("0.00"), c.Description);
             Console.WriteLine();
         }
@@ -124,7 +124,7 @@ namespace Business.Concrete
         public void WriteAllCarDetails(List<CarDetailDto> carDtoList)
         {
             foreach (CarDetailDto c in carDtoList)
-                Console.WriteLine("ID: #{0,-5}   Name: {1,-10}   Brand: {2,-10}   Color: {3,-10}   Daily Price: {4,-5}",
+                Console.WriteLine("ID: #{0,-5}   Name: {1,-10}   Brand: {2,-10}   Color: {3,-10}   Daily Price: {4}",
                     c.CarId, c.CarName, c.BrandName, c.ColorName, c.DailyPrice.ToString("0.00"));
             Console.WriteLine();
         }

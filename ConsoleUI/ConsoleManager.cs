@@ -169,8 +169,8 @@ namespace ConsoleUI
 
             Console.Write("Description: ");
             string Description = Console.ReadLine();
-
-            carManager.Update(new Car { BrandId = BrandId, ColorId = ColorId, ModelYear = ModelYear, DailyPrice = DailyPrice, Description = Description });
+            
+            carManager.Update(new Car { Id = searchID, BrandId = BrandId, ColorId = ColorId, ModelYear = ModelYear, DailyPrice = DailyPrice, Description = Description });
         }
 
         private void CarMenu_Delete(CarManager carManager)
@@ -341,7 +341,7 @@ namespace ConsoleUI
             Console.WriteLine("Please update the information below.");
             Console.Write("Name:     ");
             string Name = Console.ReadLine();
-            brandManager.Update(new Brand { Name = Name });
+            brandManager.Update(new Brand { Id = searchID, Name = Name });
         }
 
         private void BrandMenu_Delete(BrandManager brandManager)
@@ -354,7 +354,7 @@ namespace ConsoleUI
 
             while (!IsExist)
             {
-                Console.Write("-> Enter the ID of the brand you want to update: ");
+                Console.Write("-> Enter the ID of the brand you want to delete: ");
                 searchID = Convert.ToInt32(Console.ReadLine());
                 IsExist = brandManager.IsExistById(searchID).Success;
                 if (!IsExist)
@@ -454,7 +454,7 @@ namespace ConsoleUI
             Console.WriteLine("Please update the information below.");
             Console.Write("Name:     ");
             string Name = Console.ReadLine();
-            colorManager.Update(new Color { Name = Name });
+            colorManager.Update(new Color { Id = searchID, Name = Name });
         }
 
         private void ColorMenu_Delete(ColorManager colorManager)
@@ -467,7 +467,7 @@ namespace ConsoleUI
 
             while (!IsExist)
             {
-                Console.Write("-> Enter the ID of the color you want to update: ");
+                Console.Write("-> Enter the ID of the color you want to delete: ");
                 searchID = Convert.ToInt32(Console.ReadLine());
                 IsExist = colorManager.IsExistById(searchID).Success;
                 if (!IsExist)

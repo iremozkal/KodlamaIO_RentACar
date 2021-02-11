@@ -61,7 +61,7 @@ namespace Business.Concrete
         public void WriteAll(List<Brand> brandList)
         {
             foreach (Brand b in brandList)
-                Console.WriteLine("ID: #{0}   Name: {1}", b.Id, b.Name);
+                Console.WriteLine("ID: #{0,-5}   Name: {1,-10}", b.Id, b.Name);
             Console.WriteLine();
         }
     }

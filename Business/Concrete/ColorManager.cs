@@ -61,7 +61,7 @@ namespace Business.Concrete
         public void WriteAll(List<Color> colorList)
         {
             foreach (Color c in colorList)
-                Console.WriteLine("ID: #{0}   Name: {1}", c.Id, c.Name);
+                Console.WriteLine("ID: #{0,-5}   Name: {1,-10}", c.Id, c.Name);
             Console.WriteLine();
         }
     }

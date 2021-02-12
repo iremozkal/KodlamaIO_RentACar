@@ -26,54 +26,44 @@ namespace Business.Concrete
             carDal = _carDal;
         }
 
-        public IResult Add(Car car)
+        public IDataResult<Car> Add(Car car)
         {
             ValidationResult result = this.carValidator.Validate(car);
 
             if (result.IsValid)
             {
                 this.carDal.Add(car);
-                return new SuccessResult(Messages.AddSuccess);
+                return new SuccessDataResult<Car>(car, Messages.AddSuccess);
             }
             else
             {
                 var errorMessage = Messages.AddError + "\n";
                 foreach (var error in result.Errors) errorMessage += error.ErrorMessage + "\n";
-                return new ErrorResult(errorMessage);
+                return new ErrorDataResult<Car>(car, errorMessage);
             }
         }
 
-        public IResult Update(Car car)
+        public IDataResult<Car> Update(Car car)
         {
             ValidationResult result = this.carValidator.Validate(car);
 
             if (result.IsValid)
             {
                 this.carDal.Update(car);
-                return new SuccessResult(Messages.UpdateSuccess);
+                return new SuccessDataResult<Car>(car, Messages.UpdateSuccess);
             }
             else
             {
                 var errorMessage = Messages.UpdateError + "\n";
                 foreach (var error in result.Errors) errorMessage += error.ErrorMessage + "\n";
-                return new ErrorResult(errorMessage);
+                return new ErrorDataResult<Car>(car, errorMessage);
             }
         }
 
-        public IResult Delete(Car car)
+        public IDataResult<Car> Delete(Car car)
         {
             this.carDal.Delete(car);
-            return new SuccessResult(Messages.DeleteSuccess);
-        }
-
-        public IDataResult<Car> GetCarById(int id)
-        {
-            return new SuccessDataResult<Car>(this.carDal.Get(c => c.Id == id));
-        }
-
-        public int GetCountOfAllCars()
-        {
-            return this.carDal.GetCount();
+            return new SuccessDataResult<Car>(car, Messages.DeleteSuccess);
         }
 
         public IResult IsExistById(int id)
@@ -81,9 +71,19 @@ namespace Business.Concrete
             return new Result(this.carDal.IsExists(x => x.Id == id));
         }
 
-        public IDataResult<List<Car>> GetAllCars()
+        public IDataResult<Car> GetById(int id)
+        {
+            return new SuccessDataResult<Car>(this.carDal.Get(c => c.Id == id));
+        }
+
+        public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(this.carDal.GetAll());
+        }
+
+        public int GetCountOfAll()
+        {
+            return this.carDal.GetCount();
         }
 
         public IDataResult<List<Car>> GetAllCarsByBrandId(int id)

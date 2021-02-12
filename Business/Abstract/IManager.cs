@@ -10,10 +10,13 @@ namespace Business.Abstract
 {
     public interface IManager<T> where T : IEntity
     {
-        IResult Add(T entity);
-        IResult Update(T entity);
-        IResult Delete(T entity);
+        IDataResult<T> Add(T entity);
+        IDataResult<T> Update(T entity);
+        IDataResult<T> Delete(T entity);
         IResult IsExistById(int id);
+        IDataResult<T> GetById(int id);
+        IDataResult<List<T>> GetAll();
+        int GetCountOfAll();
         void WriteAll(List<T> entityList);
     }
 }

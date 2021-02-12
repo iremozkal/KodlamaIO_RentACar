@@ -50,10 +50,18 @@
     <Compile Include="Abstract\IBrandDal.cs" />
     <Compile Include="Abstract\ICarDal.cs" />
     <Compile Include="Abstract\IColorDal.cs" />
+    <Compile Include="Abstract\ICustomerDal.cs" />
+    <Compile Include="Abstract\IRentalDal.cs" />
+    <Compile Include="Abstract\IUserDal.cs" />
     <Compile Include="Concrete\EntityFramework\CarRentContext.cs" />
+    <Compile Include="Concrete\EntityFramework\EFCustomerDal.cs" />
     <Compile Include="Concrete\EntityFramework\EFBrandDal.cs" />
     <Compile Include="Concrete\EntityFramework\EFCarDal.cs" />
     <Compile Include="Concrete\EntityFramework\EFColorDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EFRentalDal.cs" />
+    <Compile Include="Concrete\EntityFramework\EFUserDal.cs" />
+    <Compile Include="Mappings\CustomerMapping.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

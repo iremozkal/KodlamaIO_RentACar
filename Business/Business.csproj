@@ -45,10 +45,15 @@
     <Compile Include="Abstract\IBrandManager.cs" />
     <Compile Include="Abstract\ICarManager.cs" />
     <Compile Include="Abstract\IColorManager.cs" />
+    <Compile Include="Abstract\ICustomerManager.cs" />
     <Compile Include="Abstract\IManager.cs" />
+    <Compile Include="Abstract\IRentalManager.cs" />
+    <Compile Include="Abstract\IUserManager.cs" />
     <Compile Include="Concrete\BrandManager.cs" />
     <Compile Include="Concrete\CarManager.cs" />
     <Compile Include="Concrete\ColorManager.cs" />
+    <Compile Include="Concrete\CustomerManager.cs" />
+    <Compile Include="Concrete\UserManager.cs" />
     <Compile Include="Constants\Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\CarValidator.cs" />

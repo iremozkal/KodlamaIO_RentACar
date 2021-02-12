@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IBrandManager : IManager<Brand>
+    public interface IUserManager : IManager<User>
     {
     }
 }

@@ -20,32 +20,22 @@ namespace Business.Concrete
             brandDal = _brandDal;
         }
 
-        public IResult Add(Brand brand)
+        public IDataResult<Brand> Add(Brand brand)
         {
             this.brandDal.Add(brand);
-            return new SuccessResult(Messages.AddSuccess);
+            return new SuccessDataResult<Brand>(brand, Messages.AddSuccess);
         }
 
-        public IResult Update(Brand brand)
+        public IDataResult<Brand> Update(Brand brand)
         {
             this.brandDal.Update(brand);
-            return new SuccessResult(Messages.UpdateSuccess);
+            return new SuccessDataResult<Brand>(brand, Messages.UpdateSuccess);
         }
 
-        public IResult Delete(Brand brand)
+        public IDataResult<Brand> Delete(Brand brand)
         {
             this.brandDal.Delete(brand);
-            return new SuccessResult(Messages.DeleteSuccess);
-        }
-
-        public IDataResult<Brand> GetBrandById(int id)
-        {
-            return new SuccessDataResult<Brand>(this.brandDal.Get(c => c.Id == id));
-        }
-
-        public int GetCountOfAllBrands()
-        {
-            return this.brandDal.GetCount();
+            return new SuccessDataResult<Brand>(brand, Messages.DeleteSuccess);
         }
 
         public IResult IsExistById(int id)
@@ -53,9 +43,19 @@ namespace Business.Concrete
             return new Result(this.brandDal.IsExists(x => x.Id == id));
         }
 
-        public IDataResult<List<Brand>> GetAllBrands()
+        public IDataResult<Brand> GetById(int id)
+        {
+            return new SuccessDataResult<Brand>(this.brandDal.Get(c => c.Id == id));
+        }
+
+        public IDataResult<List<Brand>> GetAll()
         {
             return new SuccessDataResult<List<Brand>>(this.brandDal.GetAll());
+        }
+
+        public int GetCountOfAll()
+        {
+            return this.brandDal.GetCount();
         }
 
         public void WriteAll(List<Brand> brandList)

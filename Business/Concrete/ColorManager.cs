@@ -20,32 +20,22 @@ namespace Business.Concrete
             colorDal = _colorDal;
         }
 
-        public IResult Add(Color color)
+        public IDataResult<Color> Add(Color color)
         {
             this.colorDal.Add(color);
-            return new SuccessResult(Messages.AddSuccess);
+            return new SuccessDataResult<Color>(color, Messages.AddSuccess);
         }
 
-        public IResult Update(Color color)
+        public IDataResult<Color> Update(Color color)
         {
             this.colorDal.Update(color);
-            return new SuccessResult(Messages.UpdateSuccess);
+            return new SuccessDataResult<Color>(color, Messages.UpdateSuccess);
         }
 
-        public IResult Delete(Color color)
+        public IDataResult<Color> Delete(Color color)
         {
             this.colorDal.Delete(color);
-            return new SuccessResult(Messages.DeleteSuccess);
-        }
-
-        public IDataResult<Color> GetColorById(int id)
-        {
-            return new SuccessDataResult<Color>(this.colorDal.Get(c => c.Id == id));
-        }
-
-        public int GetCountOfAllColors()
-        {
-            return this.colorDal.GetCount();
+            return new SuccessDataResult<Color>(color, Messages.DeleteSuccess);
         }
 
         public IResult IsExistById(int id)
@@ -53,9 +43,19 @@ namespace Business.Concrete
             return new Result(this.colorDal.IsExists(x => x.Id == id));
         }
 
-        public IDataResult<List<Color>> GetAllColors()
+        public IDataResult<Color> GetById(int id)
+        {
+            return new SuccessDataResult<Color>(this.colorDal.Get(c => c.Id == id));
+        }
+
+        public IDataResult<List<Color>> GetAll()
         {
             return new SuccessDataResult<List<Color>>(this.colorDal.GetAll());
+        }
+
+        public int GetCountOfAll()
+        {
+            return this.colorDal.GetCount();
         }
 
         public void WriteAll(List<Color> colorList)

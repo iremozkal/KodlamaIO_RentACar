@@ -10,8 +10,5 @@ namespace Business.Abstract
 {
     public interface IColorManager : IManager<Color>
     {
-        IDataResult<Color> GetColorById(int id);
-        int GetCountOfAllColors();
-        IDataResult<List<Color>> GetAllColors();
     }
 }

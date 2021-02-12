@@ -12,9 +12,6 @@ namespace Business.Abstract
 {
     public interface ICarManager : IManager<Car>
     {
-        IDataResult<Car> GetCarById(int id);
-        int GetCountOfAllCars();
-        IDataResult<List<Car>> GetAllCars();
         IDataResult<List<Car>> GetAllCarsByColorId(int id);
         IDataResult<List<Car>> GetAllCarsByBrandId(int id);
         IDataResult<List<Car>> GetAllCarsByDailyPrice(decimal min, decimal max);

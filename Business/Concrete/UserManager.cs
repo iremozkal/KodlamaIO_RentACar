@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class UserManager : IUserManager
+    public class UserManager : IUserService
     {
         private readonly IUserDal userDal;
 
@@ -45,7 +45,11 @@ namespace Business.Concrete
 
         public IDataResult<User> GetById(int id)
         {
-            return new SuccessDataResult<User>(this.userDal.Get(c => c.UserId == id));
+            var result = this.userDal.Get(c => c.UserId == id);
+            if (result != null)
+                return new SuccessDataResult<User>(result);
+            else
+                return new ErrorDataResult<User>(result, "NotFound");
         }
 
         public IDataResult<List<User>> GetAll()

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class CustomerManager : ICustomerManager
+    public class CustomerManager : ICustomerService
     {
         private readonly ICustomerDal customerDal;
 
@@ -47,7 +47,11 @@ namespace Business.Concrete
 
         public IDataResult<Customer> GetById(int id)
         {
-            return new SuccessDataResult<Customer>(this.customerDal.Get(c => c.UserId == id));
+            var result = this.customerDal.Get(c => c.UserId == id);
+            if (result != null)
+                return new SuccessDataResult<Customer>(result);
+            else
+                return new ErrorDataResult<Customer>(result, "NotFound");
         }
 
         public IDataResult<List<Customer>> GetAll()

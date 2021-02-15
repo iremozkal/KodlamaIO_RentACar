@@ -34,7 +34,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<CustomerDetailDto> GetCustomerDetails(Expression<Func<Customer, bool>> filter = null)
+        public IDataResult<List<CustomerDetailDto>> GetCustomerDetails(Expression<Func<Customer, bool>> filter = null)
         {
             using (CarRentContext context = new CarRentContext())
             {
@@ -50,7 +50,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CompanyName = customer.CompanyName
                              };
 
-                return result.ToList();
+                return new SuccessDataResult<List<CustomerDetailDto>>(result.ToList());
             }
         }
     }

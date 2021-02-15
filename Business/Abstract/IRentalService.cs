@@ -1,5 +1,4 @@
-﻿using Core.DataAccess;
-using Core.Utilities.Results;
+﻿using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -9,11 +8,11 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Abstract
+namespace Business.Abstract
 {
-    public interface IRentalDal : IEntityRepository<Rental>
+    public interface IRentalService : IService<Rental>
     {
+        IResult IsReturn(int id);
         IDataResult<RentalDetailDto> GetRentalDto(Expression<Func<Rental, bool>> filter = null);
-        IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null);
     }
 }

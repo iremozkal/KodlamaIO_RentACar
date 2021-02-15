@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class ColorManager : IColorManager
+    public class ColorManager : IColorService
     {
         private readonly IColorDal colorDal;
 
@@ -45,7 +45,11 @@ namespace Business.Concrete
 
         public IDataResult<Color> GetById(int id)
         {
-            return new SuccessDataResult<Color>(this.colorDal.Get(c => c.Id == id));
+            var result = this.colorDal.Get(c => c.Id == id);
+            if (result != null)
+                return new SuccessDataResult<Color>(result);
+            else
+                return new ErrorDataResult<Color>(result, "NotFound");
         }
 
         public IDataResult<List<Color>> GetAll()

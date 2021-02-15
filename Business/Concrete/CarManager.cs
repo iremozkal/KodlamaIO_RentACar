@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class CarManager : ICarManager
+    public class CarManager : ICarService
     {
         private readonly ICarDal carDal;
         private readonly CarValidator carValidator;
@@ -73,7 +73,11 @@ namespace Business.Concrete
 
         public IDataResult<Car> GetById(int id)
         {
-            return new SuccessDataResult<Car>(this.carDal.Get(c => c.Id == id));
+            var result = this.carDal.Get(c => c.Id == id);
+            if (result != null)
+                return new SuccessDataResult<Car>(result);
+            else
+                return new ErrorDataResult<Car>(result, "NotFound");
         }
 
         public IDataResult<List<Car>> GetAll()

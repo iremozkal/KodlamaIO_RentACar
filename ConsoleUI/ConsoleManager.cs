@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 namespace ConsoleUI
 {
     /* TO DO: 
-     * All Rental Operations.
      * Email-Password Control
      */
     public class ConsoleManager
@@ -23,6 +22,7 @@ namespace ConsoleUI
             ColorManager colorManager = new ColorManager(new EFColorDal());
             CustomerManager customerManager = new CustomerManager(new EFCustomerDal());
             UserManager userManager = new UserManager(new EFUserDal());
+            RentalManager rentalManager = new RentalManager(new EFRentalDal());
 
             bool IsMainMenuOpen = true;
             while (IsMainMenuOpen)
@@ -33,7 +33,8 @@ namespace ConsoleUI
                 Console.WriteLine(" 3 - Color");
                 Console.WriteLine(" 4 - Customer");
                 Console.WriteLine(" 5 - User");
-                Console.WriteLine(" 6 - Exit");
+                Console.WriteLine(" 6 - Rental");
+                Console.WriteLine(" 7 - Exit");
                 Console.WriteLine("-----------------------------");
 
                 string choice = Console.ReadLine();
@@ -63,6 +64,10 @@ namespace ConsoleUI
                             IsMainMenuOpen = true;
                             break;
                         case 6:
+                            RentalMenuScreen(rentalManager, customerManager, carManager);
+                            IsMainMenuOpen = true;
+                            break;
+                        case 7:
                             IsMainMenuOpen = false;
                             break;
                         default:
@@ -622,7 +627,7 @@ namespace ConsoleUI
                     IsExist = customerManager.IsExistById(searchID).Success;
                 }
             }
-            
+
             customerManager.Delete(customerManager.GetById(searchID).Data);
         }
 
@@ -748,6 +753,155 @@ namespace ConsoleUI
 
             var user = userManager.Delete(userManager.GetById(searchID).Data).Data;
             customerManager.Delete(customerManager.GetById(user.UserId).Data);
+        }
+
+        private void RentalMenuScreen(RentalManager rentalManager, CustomerManager customerManager, CarManager carManager)
+        {
+            bool IsMenuOpen = true;
+            while (IsMenuOpen)
+            {
+                Console.WriteLine("\n--------- ADMIN MENU ---------");
+                Console.WriteLine(" 1 - Add New Rental ");
+                Console.WriteLine(" 2 - Update a Rental");
+                Console.WriteLine(" 3 - Delete a Rental");
+                Console.WriteLine(" 4 - View Rental List");
+                Console.WriteLine(" 5 - Go back to Main Menu");
+                Console.WriteLine("------------------------------");
+
+                string choice = Console.ReadLine();
+                if (choice == "") Console.WriteLine("Wrong! Try again.");
+                else
+                {
+                    switch (Int32.Parse(choice))
+                    {
+                        case 1:
+                            RentalMenu_Save(rentalManager, customerManager, carManager);
+                            Console.WriteLine("Count of All Rentals: " + rentalManager.GetCountOfAll());
+                            break;
+                        case 2:
+                            RentalMenu_Update(rentalManager, customerManager, carManager);
+                            Console.WriteLine("Count of All Rentals: " + rentalManager.GetCountOfAll());
+                            break;
+                        case 3:
+                            RentalMenu_Delete(rentalManager);
+                            Console.WriteLine("Count of All Rentals: " + rentalManager.GetCountOfAll());
+                            break;
+                        case 4:
+                            if (rentalManager.GetCountOfAll() != 0)
+                            {
+                                Console.WriteLine("\nList of All Rentals");
+                                rentalManager.WriteAll(rentalManager.GetAll().Data);
+                            }
+                            Console.WriteLine("Count of All Rentals: " + rentalManager.GetCountOfAll());
+                            break;
+                        case 5:
+                            IsMenuOpen = false;
+                            break;
+                        default:
+                            Console.WriteLine("Wrong! Try again.");
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void RentalMenu_Save(RentalManager rentalManager, CustomerManager customerManager, CarManager carManager)
+        {
+            Console.WriteLine("Please enter the information of the new rental.");
+
+            Console.WriteLine("\nList of All Cars");
+            carManager.WriteAll(carManager.GetAll().Data);
+            Console.Write("Car ID:         ");
+            int CarId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("\nList of All Customers");
+            customerManager.WriteAll(customerManager.GetAll().Data);
+            Console.Write("Customer ID:     ");
+            int CustomerId = Convert.ToInt32(Console.ReadLine());
+
+            rentalManager.Add(new Rental { CarId = CarId, CustomerId = CustomerId, RentDate = DateTime.Now, ReturnDate = null });
+        }
+
+        private void RentalMenu_Update(RentalManager rentalManager, CustomerManager customerManager, CarManager carManager)
+        {
+            Console.WriteLine("\nList of All Rentals");
+            rentalManager.WriteAll(rentalManager.GetAll().Data);
+
+            bool IsExist = false;
+            int searchID = 0;
+
+            while (!IsExist)
+            {
+                Console.Write("-> Enter the ID of the rental you want to update: ");
+                searchID = Convert.ToInt32(Console.ReadLine());
+                IsExist = rentalManager.IsExistById(searchID).Success;
+                if (!IsExist)
+                {
+                    Console.Write(Messages.ColorNotExist + " Try again. Rental ID: ");
+                    searchID = Convert.ToInt32(Console.ReadLine());
+                    IsExist = rentalManager.IsExistById(searchID).Success;
+                }
+            }
+
+            if (!rentalManager.IsReturn(searchID).Success)
+            {
+                Console.WriteLine(Messages.CarNotReturn);
+
+                bool isUpdated = false;
+                int choice = 0;
+
+                while (!isUpdated)
+                {
+                    Console.Write("Is it delivered right now? (1) Yes, (2) No  : ");
+                    choice = Convert.ToInt32(Console.ReadLine());
+
+                    if (choice == 1)
+                    {
+                        var rental = rentalManager.GetById(searchID).Data;
+                        rentalManager.Update(new Rental
+                        {
+                            Id = searchID,
+                            CarId = rental.CarId,
+                            CustomerId = rental.CustomerId,
+                            RentDate = rental.RentDate,
+                            ReturnDate = DateTime.Now
+                        });
+                        isUpdated = true;
+                    }
+                    else if (choice == 2)
+                    {
+                        Console.WriteLine("No update.");
+                        isUpdated = true;
+                    }
+                    else Console.WriteLine("Wrong! Try again.");
+                }
+            }
+            else
+                Console.WriteLine("Update is not available. The rental process is already completed.");
+        }
+
+        private void RentalMenu_Delete(RentalManager rentalManager)
+        {
+            Console.WriteLine("\nList of All Rentals");
+            rentalManager.WriteAll(rentalManager.GetAll().Data);
+
+            bool IsExist = false;
+            int searchID = 0;
+
+            while (!IsExist)
+            {
+                Console.Write("-> Enter the ID of the rental you want to delete: ");
+                searchID = Convert.ToInt32(Console.ReadLine());
+                IsExist = rentalManager.IsExistById(searchID).Success;
+                if (!IsExist)
+                {
+                    Console.Write(Messages.ColorNotExist + " Try again. Rental ID: ");
+                    searchID = Convert.ToInt32(Console.ReadLine());
+                    IsExist = rentalManager.IsExistById(searchID).Success;
+                }
+            }
+
+            rentalManager.Delete(rentalManager.GetById(searchID).Data);
         }
     }
 }

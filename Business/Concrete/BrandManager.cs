@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class BrandManager : IBrandManager
+    public class BrandManager : IBrandService
     {
         private readonly IBrandDal brandDal;
 
@@ -45,7 +45,11 @@ namespace Business.Concrete
 
         public IDataResult<Brand> GetById(int id)
         {
-            return new SuccessDataResult<Brand>(this.brandDal.Get(c => c.Id == id));
+            var result = this.brandDal.Get(c => c.Id == id);
+            if (result != null)
+                return new SuccessDataResult<Brand>(result);
+            else
+                return new ErrorDataResult<Brand>(result, "NotFound");
         }
 
         public IDataResult<List<Brand>> GetAll()

@@ -1,5 +1,4 @@
-﻿using Business.Abstract;
-using Business.Concrete;
+﻿using Business.DependencyResolvers.Unity;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using System;
@@ -7,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Unity;
-using WebAPI.Models;
 
 namespace WebAPI
 {
@@ -17,22 +15,7 @@ namespace WebAPI
         {
             // Web API configuration and services
             var container = new UnityContainer();
-
-            container.RegisterType<ICarService, CarManager>();
-            container.RegisterType<IBrandService, BrandManager>();
-            container.RegisterType<IColorService, ColorManager>();
-            container.RegisterType<ICustomerService, CustomerManager>();
-            container.RegisterType<IUserService, UserManager>();
-            container.RegisterType<IRentalService, RentalManager>();
-
-            container.RegisterType<ICarDal, EFCarDal>();
-            container.RegisterType<IBrandDal, EFBrandDal>();
-            container.RegisterType<IColorDal, EFColorDal>();
-            container.RegisterType<ICustomerDal, EFCustomerDal>();
-            container.RegisterType<IUserDal, EFUserDal>();
-            container.RegisterType<IRentalDal, EFRentalDal>();
-
-            config.DependencyResolver = new UnityResolver(container);
+            config.DependencyResolver =  new UnityResolver(container);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

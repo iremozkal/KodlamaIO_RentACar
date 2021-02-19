@@ -1,15 +1,17 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
-    public class RentalsController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RentalsController : ControllerBase
     {
         private readonly IRentalService _rentalService;
 
@@ -18,9 +20,8 @@ namespace WebAPI.Controllers
             _rentalService = rentalService;
         }
 
-        // GET api/<controller>
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get()
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
             var result = this._rentalService.GetAll();
 
@@ -28,9 +29,9 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // GET api/<controller>/id
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get(int id)
+
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
         {
             var result = this._rentalService.GetById(id);
 
@@ -38,9 +39,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // POST(add) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Post(Rental rental)
+        [HttpPost("add")]
+        public IActionResult Add(Rental rental)
         {
             var result = this._rentalService.Add(rental);
 
@@ -48,9 +48,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // PUT(update) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Put(Rental rental)
+        [HttpPost("update")]
+        public IActionResult Update(Rental rental)
         {
             var result = this._rentalService.Update(rental);
 
@@ -58,9 +57,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // DELETE api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Delete(Rental rental)
+        [HttpPost("delete")]
+        public IActionResult Delete(Rental rental)
         {
             var result = this._rentalService.Delete(rental);
 

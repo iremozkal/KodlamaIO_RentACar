@@ -1,63 +1,38 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Business.Validators;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
-using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
         private readonly ICarDal carDal;
-        private readonly CarValidator carValidator;
 
         public CarManager(ICarDal _carDal)
         {
-            carValidator = new CarValidator();
             carDal = _carDal;
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IDataResult<Car> Add(Car car)
         {
-            ValidationResult result = this.carValidator.Validate(car);
-
-            if (result.IsValid)
-            {
-                this.carDal.Add(car);
-                return new SuccessDataResult<Car>(car, Messages.AddSuccess);
-            }
-            else
-            {
-                var errorMessage = Messages.AddError + "\n";
-                foreach (var error in result.Errors) errorMessage += error.ErrorMessage + "\n";
-                return new ErrorDataResult<Car>(car, errorMessage);
-            }
+            this.carDal.Add(car);
+            return new SuccessDataResult<Car>(car, Messages.AddSuccess);
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IDataResult<Car> Update(Car car)
         {
-            ValidationResult result = this.carValidator.Validate(car);
-
-            if (result.IsValid)
-            {
-                this.carDal.Update(car);
-                return new SuccessDataResult<Car>(car, Messages.UpdateSuccess);
-            }
-            else
-            {
-                var errorMessage = Messages.UpdateError + "\n";
-                foreach (var error in result.Errors) errorMessage += error.ErrorMessage + "\n";
-                return new ErrorDataResult<Car>(car, errorMessage);
-            }
+            this.carDal.Update(car);
+            return new SuccessDataResult<Car>(car, Messages.UpdateSuccess);
         }
 
         public IDataResult<Car> Delete(Car car)

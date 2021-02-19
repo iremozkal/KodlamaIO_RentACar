@@ -1,16 +1,12 @@
 ﻿using Business.Abstract;
-using Business.Concrete;
-using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    public class CarsController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CarsController : ControllerBase
     {
         private readonly ICarService _carService;
 
@@ -19,9 +15,8 @@ namespace WebAPI.Controllers
             _carService = carService;
         }
 
-        // GET api/<controller>
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get()
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
             var result = this._carService.GetAll();
 
@@ -29,49 +24,40 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // GET api/<controller>/id
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get(int id)
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
         {
-            var result = this._carService.GetById(id);
+            var result = _carService.GetById(id);
 
             if (result.Success == true) return Ok(result);
             else return BadRequest(result.Message);
         }
 
-        // POST(add) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Post(Car car)
+        [HttpPost("add")]
+        public IActionResult Add(Car car)
         {
-            var result = this._carService.Add(car);
+            var result = _carService.Add(car);
+
+            if (result.Success) return Ok(result);
+            else return BadRequest(result);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update(Car car)
+        {
+            var result = _carService.Update(car);
 
             if (result.Success == true) return Ok(result);
             else return BadRequest(result.Message);
         }
 
-        // PUT(update) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Put(Car car)
+        [HttpPost("delete")]
+        public IActionResult Delete(Car car)
         {
-            var result = this._carService.Update(car);
-
-            if (result.Success == true) return Ok(result);
-            else return BadRequest(result.Message);
-        }
-
-        // DELETE api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Delete(Car car)
-        {
-            var result = this._carService.Delete(car);
+            var result = _carService.Delete(car);
 
             if (result.Success == true) return Ok(result);
             else return BadRequest(result.Message);
         }
     }
 }
-
-/*  Alternative : HttpResponseMessage 
-*   return Request.CreateResponse(HttpStatusCode.OK, result.Data);
-*   return Request.CreateResponse(HttpStatusCode.BadRequest, result.Message);
-*/

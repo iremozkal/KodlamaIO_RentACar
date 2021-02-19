@@ -1,15 +1,12 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    public class UsersController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
 
@@ -18,9 +15,8 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        // GET api/<controller>
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get()
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
             var result = this._userService.GetAll();
 
@@ -28,9 +24,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // GET api/<controller>/id
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get(int id)
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
         {
             var result = this._userService.GetById(id);
 
@@ -38,9 +33,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // POST(add) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Post(User user)
+        [HttpPost("add")]
+        public IActionResult Add(User user)
         {
             var result = this._userService.Add(user);
 
@@ -48,9 +42,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // PUT(update) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Put(User user)
+        [HttpPost("update")]
+        public IActionResult Update(User user)
         {
             var result = this._userService.Update(user);
 
@@ -58,9 +51,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // DELETE api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Delete(User user)
+        [HttpPost("delete")]
+        public IActionResult Delete(User user)
         {
             var result = this._userService.Delete(user);
 

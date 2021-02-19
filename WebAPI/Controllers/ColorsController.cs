@@ -1,15 +1,12 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    public class ColorsController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ColorsController : ControllerBase
     {
         private readonly IColorService _colorService;
 
@@ -18,9 +15,8 @@ namespace WebAPI.Controllers
             _colorService = colorService;
         }
 
-        // GET api/<controller>
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get()
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
             var result = this._colorService.GetAll();
 
@@ -28,9 +24,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // GET api/<controller>/id
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get(int id)
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
         {
             var result = this._colorService.GetById(id);
 
@@ -38,9 +33,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // POST(add) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Post(Color color)
+        [HttpPost("Add")]
+        public IActionResult Add(Color color)
         {
             var result = this._colorService.Add(color);
 
@@ -48,9 +42,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // PUT(update) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Put(Color color)
+        [HttpPost("update")]
+        public IActionResult Update(Color color)
         {
             var result = this._colorService.Update(color);
 
@@ -58,9 +51,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // DELETE api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Delete(Color color)
+        [HttpPost("delete")]
+        public IActionResult Delete(Color color)
         {
             var result = this._colorService.Delete(color);
 

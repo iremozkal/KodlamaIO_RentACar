@@ -1,15 +1,12 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    public class CustomersController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CustomersController : ControllerBase
     {
         private readonly ICustomerService _customerService;
 
@@ -18,9 +15,8 @@ namespace WebAPI.Controllers
             _customerService = customerService;
         }
 
-        // GET api/<controller>
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get()
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
             var result = this._customerService.GetAll();
 
@@ -28,9 +24,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // GET api/<controller>/id
-        [System.Web.Mvc.HttpGet]
-        public IHttpActionResult Get(int id)
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
         {
             var result = this._customerService.GetById(id);
 
@@ -38,9 +33,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // POST(add) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Post(Customer customer)
+        [HttpPost("add")]
+        public IActionResult Add(Customer customer)
         {
             var result = this._customerService.Add(customer);
 
@@ -48,9 +42,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // PUT(update) api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Put(Customer customer)
+        [HttpPost("update")]
+        public IActionResult Update(Customer customer)
         {
             var result = this._customerService.Update(customer);
 
@@ -58,9 +51,8 @@ namespace WebAPI.Controllers
             else return BadRequest(result.Message);
         }
 
-        // DELETE api/<controller>
-        [System.Web.Mvc.HttpPost]
-        public IHttpActionResult Delete(Customer customer)
+        [HttpPost("delete")]
+        public IActionResult Delete(Customer customer)
         {
             var result = this._customerService.Delete(customer);
 

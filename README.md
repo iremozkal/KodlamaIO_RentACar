@@ -4,7 +4,7 @@ Kodlama.io - Software Bootcamp.
 
 ### General info
 The project consists of 5 layers: Entities, DataAccess, Business, Core, ConsoleUI and WebAPI.  
-For each entity (car, brand, color, customer, user, rental), there is a menu screen for related operations in ConsoleManager. Each operation is controlled by its own manager and the manager uses the Dal classes to implement crud operations. All data access layers implement generic IEntityRepository interface as a common outline.  
+For each entity (car, brand, color, customer, user, rental, car image), there is a menu screen for related operations in ConsoleManager. Each operation is controlled by its own manager and the manager uses the Dal classes to implement crud operations. All data access layers implement generic IEntityRepository interface as a common outline.  
 Autofac IoC Container is used for Dependency Injection and Aspect Oriented Programming. Validation is a Cross Cutting Concern and as 
 regard of AOP, Validation Aspect is created with Autofac using Interceptors. FluentValidation is the Validation Tool used for the verification process.
 

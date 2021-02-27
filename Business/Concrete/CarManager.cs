@@ -2,6 +2,7 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -14,41 +15,59 @@ namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
-        private readonly ICarDal carDal;
+        private readonly ICarDal _carDal;
+        private readonly IBrandService _brandService;
 
-        public CarManager(ICarDal _carDal)
+        public CarManager(ICarDal carDal, IBrandService brandService)
         {
-            carDal = _carDal;
+            _carDal = carDal;
+            _brandService = brandService;
         }
 
         [ValidationAspect(typeof(CarValidator))]
         public IDataResult<Car> Add(Car car)
         {
-            this.carDal.Add(car);
+            IResult result = BusinessRules.Run(
+                CheckIfCarCountOfBrandCorrect(car.BrandId),
+                CheckIfCarDescriptionIsExists(car.Description),
+                CheckIfBrandLimitExceded()
+            );
+
+            if (result != null) return new ErrorDataResult<Car>(car, result.Message);
+
+            _carDal.Add(car);
             return new SuccessDataResult<Car>(car, Messages.AddSuccess);
         }
 
         [ValidationAspect(typeof(CarValidator))]
         public IDataResult<Car> Update(Car car)
         {
-            this.carDal.Update(car);
+            IResult result = BusinessRules.Run(
+                CheckIfCarCountOfBrandCorrect(car.BrandId),
+                CheckIfCarDescriptionIsExists(car.Description),
+                CheckIfBrandLimitExceded()
+            );
+
+            if (result != null) return new ErrorDataResult<Car>(car, result.Message);
+
+            _carDal.Update(car);
             return new SuccessDataResult<Car>(car, Messages.UpdateSuccess);
         }
 
         public IDataResult<Car> Delete(Car car)
         {
-            this.carDal.Delete(car);
+            _carDal.Delete(car);
             return new SuccessDataResult<Car>(car, Messages.DeleteSuccess);
         }
 
         public IResult IsExistById(int id)
         {
-            return new Result(this.carDal.IsExists(x => x.Id == id));
+            return new Result(_carDal.IsExists(x => x.Id == id));
         }
 
         public IDataResult<Car> GetById(int id)
         {
-            var result = this.carDal.Get(c => c.Id == id);
+            var result = _carDal.Get(c => c.Id == id);
             if (result != null)
                 return new SuccessDataResult<Car>(result);
             else
@@ -57,39 +76,39 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetAll()
         {
-            return new SuccessDataResult<List<Car>>(this.carDal.GetAll());
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
         public int GetCountOfAll()
         {
-            return this.carDal.GetCount();
+            return _carDal.GetCount();
         }
 
         public IDataResult<List<Car>> GetAllCarsByBrandId(int id)
         {
-            return new SuccessDataResult<List<Car>>(this.carDal.GetAll(c => c.BrandId == id));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
         }
 
         public IDataResult<List<Car>> GetAllCarsByColorId(int id)
         {
-            return new SuccessDataResult<List<Car>>(this.carDal.GetAll(c => c.ColorId == id));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
 
         }
 
         public IDataResult<List<Car>> GetAllCarsByDailyPrice(decimal min, decimal max)
         {
-            return new SuccessDataResult<List<Car>>(this.carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
 
         }
 
         public IDataResult<List<Car>> GetAllCarsByModelYear(int year)
         {
-            return new SuccessDataResult<List<Car>>(this.carDal.GetAll(c => c.ModelYear == year));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ModelYear == year));
         }
 
         public IDataResult<List<CarDetailDto>> GetAllCarDetails(Expression<Func<Car, bool>> filter = null)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(this.carDal.GetCarDetails(filter));
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(filter));
         }
 
         public void WriteAll(List<Car> carList)
@@ -107,5 +126,32 @@ namespace Business.Concrete
                     c.CarId, c.CarName, c.BrandName, c.ColorName, c.DailyPrice.ToString("0.00"));
             Console.WriteLine();
         }
+
+        #region Business Rules
+        private IResult CheckIfCarCountOfBrandCorrect(int brandId)
+        {
+            var result = _carDal.GetAll(x => x.BrandId == brandId);
+            if (result.Count > 5)
+                return new ErrorResult(Messages.CarCountOfBrandError);
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfCarDescriptionIsExists(string description)
+        {
+            var result = _carDal.IsExists(x => x.Description == description);
+            if (result)
+                return new ErrorResult(Messages.CarDescriptionAlreadyExists);
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfBrandLimitExceded()
+        {
+            var result = _brandService.GetAll();
+
+            if (result.Data.Count > 15)
+                return new ErrorResult(Messages.BrandLimitExceed);
+            return new SuccessResult();
+        }
+        #endregion
     }
 }

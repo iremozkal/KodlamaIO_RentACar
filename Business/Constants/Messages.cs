@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,13 @@ namespace Business.Constants
         public static string ColorNotExist = "(-) There is no such a color.";
         public static string CarIsReturn = "(+) The car has been delivered.";
         public static string CarNotReturn = "(-) The car has already been rented, not been delivered yet.";
+        public static string CarCountOfBrandError = "(-) The quota of this brand is full. You cannot add more cars.";
+        public static string CarDescriptionAlreadyExists = "There is already a car with this description. ";
+        public static string BrandLimitExceed = "(-) New cars cannot be added because the brand limit is exceeded.";
+        public static string CarImageCountError = "(-) The quota of the images for this car is full. You cannot add more images.";
+        public static string IncorrectFileExtension = "(-) Incorrect file extension.";
+        public static string ImageNotFound = "(-) The image is not found in the folder.";
+        public static string DefaultImageAdded = "(+) Default image has been added.";
+        public static string ChosenImageAdded = "(+) Chosen image has been added.";
     }
 }

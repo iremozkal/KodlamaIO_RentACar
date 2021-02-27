@@ -13,9 +13,9 @@ namespace ConsoleUI
     {
         public void MainScreen()
         {
-            CarManager carManager = new CarManager(new EFCarDal());
             BrandManager brandManager = new BrandManager(new EFBrandDal());
             ColorManager colorManager = new ColorManager(new EFColorDal());
+            CarManager carManager = new CarManager(new EFCarDal(), brandManager);
             CustomerManager customerManager = new CustomerManager(new EFCustomerDal());
             UserManager userManager = new UserManager(new EFUserDal());
             RentalManager rentalManager = new RentalManager(new EFRentalDal());
@@ -147,7 +147,8 @@ namespace ConsoleUI
             Console.Write("Description: ");
             string Description = Console.ReadLine();
 
-            carManager.Add(new Car { BrandId = BrandId, ColorId = ColorId, ModelYear = ModelYear, DailyPrice = DailyPrice, Description = Description });
+            var result = carManager.Add(new Car { BrandId = BrandId, ColorId = ColorId, ModelYear = ModelYear, DailyPrice = DailyPrice, Description = Description });
+            Console.WriteLine(result.Message);
         }
 
         private void CarMenu_Update(CarManager carManager)
@@ -187,7 +188,8 @@ namespace ConsoleUI
             Console.Write("Description: ");
             string Description = Console.ReadLine();
 
-            carManager.Update(new Car { Id = searchID, BrandId = BrandId, ColorId = ColorId, ModelYear = ModelYear, DailyPrice = DailyPrice, Description = Description });
+            var result = carManager.Update(new Car { Id = searchID, BrandId = BrandId, ColorId = ColorId, ModelYear = ModelYear, DailyPrice = DailyPrice, Description = Description });
+            Console.WriteLine(result.Message);
         }
 
         private void CarMenu_Delete(CarManager carManager)
@@ -211,7 +213,8 @@ namespace ConsoleUI
                 }
             }
 
-            carManager.Delete(carManager.GetById(searchID).Data);
+            var result = carManager.Delete(carManager.GetById(searchID).Data);
+            Console.WriteLine(result.Message);
         }
 
         private void CarMenu_GetCarsByBrandId(CarManager carManager, BrandManager brandManager)

@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
         {
             var result = this._brandService.GetAll();
 
-            if (result.Success == true) return Ok(result);
+            if (result.Success) return Ok(result);
             else return BadRequest(result.Message);
         }
 
@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         {
             var result = this._brandService.GetById(id);
 
-            if (result.Success == true) return Ok(result);
+            if (result.Success) return Ok(result);
             else return BadRequest(result.Message);
         }
 
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
         {
             var result = this._brandService.Add(brand);
 
-            if (result.Success == true) return Ok(result);
+            if (result.Success) return Ok(result);
             else return BadRequest(result.Message);
         }
 
@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
         {
             var result = this._brandService.Update(brand);
 
-            if (result.Success == true) return Ok(result);
+            if (result.Success) return Ok(result);
             else return BadRequest(result.Message);
         }
 
@@ -56,7 +56,7 @@ namespace WebAPI.Controllers
         {
             var result = this._brandService.Delete(brand);
 
-            if (result.Success == true) return Ok(result);
+            if (result.Success) return Ok(result);
             else return BadRequest(result.Message);
         }
     }

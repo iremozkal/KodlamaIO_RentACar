@@ -15,10 +15,17 @@ regard of AOP, Validation Aspect is created with Autofac using Interceptors. Flu
 | -- | -- |
 | Visual Studio 2019 | Visual Studio 2012 |
 | Asp.Net Core 3.1 | .Net Framework 4.5 |
-| EntityFrameworkCore.SqlServer 3.1.11 | EntityFramework 6.4.4 |
+| Microsoft.EntityFrameworkCore.SqlServer 3.1.11 | EntityFramework 6.4.4 |
 | FluentValidation 9.5.1 | FluentValidation 7.1.1 |
-| Autofac 6.1.0 &  Autofac.Extras.DynamicProxy 6.0.0 | Unity 5.7.3 |
-
+| Autofac 6.1.0 | Unity 5.7.3 |
+| Autofac.Extras.DynamicProxy 6.0.0 | |
+| Autofac.Extensions.DependencyInjection 7.1.0 | |
+| Microsoft.Extensions.DependencyInjection 5.0.1 | |
+| Microsoft.AspNetCore.Http 2.2.2 | |
+| Microsoft.AspNetCore.Http.Features 5.0.3 | |
+| Microsoft.IdentityModel.Tokens 6.8.0 | |
+| System.IdentityModel.tokens.Jwt 6.8.0 | |
+| Microsoft.AspNetCore.Authentication.JwtBearer 3.1.5 | |
 
 + In early versions, Web Api Layer is created as a ASP.NET WebAPI 2 Project. Unity has been used for dependency injection. UnityResolver class registers the type-mapping with the container, 
 so that it can create the correct object for the given type. After that, it automatically injects the dependencies using the resolve() method. Web Api Layer resolves the dependency of the Business Layer in WebApiConfig class with setting of the dependency resolver.  

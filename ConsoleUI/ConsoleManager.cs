@@ -1,5 +1,6 @@
 ﻿using Business.Concrete;
 using Business.Constants;
+using Core.Entities.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
@@ -563,10 +564,11 @@ namespace ConsoleUI
             Console.Write("Company Name:   ");
             string CompanyName = Console.ReadLine();
             Console.Write("Password:       ");
-            string Password = Console.ReadLine();
+            string Password = Console.ReadLine();   //? 
+
             // TO DO: Email&Password Control - if it does exists in user list, then add customer to that user.
-            var user = userManager.Add(new User { FirstName = FirstName, LastName = LastName, Email = Email, Password = Password }).Data;
-            customerManager.Add(new Customer { UserId = user.UserId, CompanyName = CompanyName });
+            var user = userManager.Add(new User { FirstName = FirstName, LastName = LastName, Email = Email }).Data;
+            customerManager.Add(new Customer { UserId = user.Id, CompanyName = CompanyName });
         }
 
         private void CustomerMenu_Update(CustomerManager customerManager, UserManager userManager)
@@ -600,10 +602,10 @@ namespace ConsoleUI
             Console.Write("Company Name:   ");
             string CompanyName = Console.ReadLine();
             Console.Write("Password:       ");
-            string Password = Console.ReadLine();
+            string Password = Console.ReadLine();   // Password salt and Hash
 
-            var user = userManager.Update(new User { UserId = searchID, FirstName = FirstName, LastName = LastName, Email = Email, Password = Password }).Data;
-            customerManager.Update(new Customer { UserId = user.UserId, CompanyName = CompanyName });
+            var user = userManager.Update(new User { Id = searchID, FirstName = FirstName, LastName = LastName, Email = Email}).Data;
+            customerManager.Update(new Customer { UserId = user.Id, CompanyName = CompanyName });
         }
 
         private void CustomerMenu_Delete(CustomerManager customerManager, UserManager userManager)
@@ -690,9 +692,9 @@ namespace ConsoleUI
             Console.Write("Email Address:  ");
             string Email = Console.ReadLine();
             Console.Write("Password:       ");
-            string Password = Console.ReadLine();
+            string Password = Console.ReadLine();   // ?
 
-            var user = userManager.Add(new User { FirstName = FirstName, LastName = LastName, Email = Email, Password = Password }).Data;
+            var user = userManager.Add(new User { FirstName = FirstName, LastName = LastName, Email = Email}).Data;
         }
 
         private void UserMenu_Update(UserManager userManager)
@@ -724,9 +726,9 @@ namespace ConsoleUI
             Console.Write("Email Address:  ");
             string Email = Console.ReadLine();
             Console.Write("Password:       ");
-            string Password = Console.ReadLine();
+            string Password = Console.ReadLine();   //?
 
-            var user = userManager.Update(new User { UserId = searchID, FirstName = FirstName, LastName = LastName, Email = Email, Password = Password }).Data;
+            var user = userManager.Update(new User { Id = searchID, FirstName = FirstName, LastName = LastName, Email = Email }).Data;
         }
 
         private void UserMenu_Delete(UserManager userManager, CustomerManager customerManager)
@@ -751,7 +753,7 @@ namespace ConsoleUI
             }
 
             var user = userManager.Delete(userManager.GetById(searchID).Data).Data;
-            customerManager.Delete(customerManager.GetById(user.UserId).Data);
+            customerManager.Delete(customerManager.GetById(user.Id).Data);
         }
 
         private void RentalMenuScreen(RentalManager rentalManager, CustomerManager customerManager, CarManager carManager)

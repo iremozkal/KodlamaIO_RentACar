@@ -1,11 +1,4 @@
-﻿using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Business.Constants
+﻿namespace Business.Constants
 {
     public static class Messages
     {
@@ -28,5 +21,15 @@ namespace Business.Constants
         public static string ImageNotFound = "(-) The image is not found in the folder.";
         public static string DefaultImageAdded = "(+) Default image has been added.";
         public static string ChosenImageAdded = "(+) Chosen image has been added.";
+        public static string AuthorizationDenied = "(-) You are not authorized.";
+        public static string SuccessfulRegister = "(+) Successful Register."; 
+        public static string SuccessfulLogin = "(+) Successful Login.";
+        public static string RentalNotFound = "(-) There is no such a rental record.";
+        public static string CustomerNotFound = "(-) Customer not found.";
+        public static string UserNotFound = "(-) User not found.";
+        public static string UserAlreadyExists = "(-) User already exists.";
+        public static string PasswordError = "(-) Wrong password.";
+        public static string AccessTokenCreated = "(+) Access Token is created.";
+        
     }
 }

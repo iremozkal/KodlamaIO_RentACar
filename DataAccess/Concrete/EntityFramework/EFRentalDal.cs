@@ -22,7 +22,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join customer in context.Customers
                              on rental.CustomerId equals customer.UserId
                              join user in context.Users
-                             on customer.UserId equals user.UserId
+                             on customer.UserId equals user.Id
                              select new RentalDetailDto
                              {
                                  RentalNo = rental.Id,
@@ -48,7 +48,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join customer in context.Customers
                              on rental.CustomerId equals customer.UserId
                              join user in context.Users
-                             on customer.UserId equals user.UserId
+                             on customer.UserId equals user.Id
                              select new RentalDetailDto
                              {
                                  RentalNo = rental.Id,

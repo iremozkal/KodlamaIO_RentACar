@@ -13,58 +13,58 @@ namespace Business.Concrete
 {
     public class RentalManager : IRentalService
     {
-        private readonly IRentalDal rentalDal;
+        private readonly IRentalDal _rentalDal;
 
-        public RentalManager(IRentalDal _rentalDal)
+        public RentalManager(IRentalDal rentalDal)
         {
-            rentalDal = _rentalDal;
+            _rentalDal = rentalDal;
         }
 
         public IDataResult<Rental> Add(Rental rental)
         {
-            this.rentalDal.Add(rental);
+            _rentalDal.Add(rental);
             return new SuccessDataResult<Rental>(rental, Messages.AddSuccess);
         }
 
         public IDataResult<Rental> Update(Rental rental)
         {
-            this.rentalDal.Update(rental);
+            _rentalDal.Update(rental);
             return new SuccessDataResult<Rental>(rental, Messages.UpdateSuccess);
         }
 
         public IDataResult<Rental> Delete(Rental rental)
         {
-            this.rentalDal.Delete(rental);
+            _rentalDal.Delete(rental);
             return new SuccessDataResult<Rental>(rental, Messages.DeleteSuccess);
         }
 
         public IResult IsExistById(int id)
         {
-            return new Result(this.rentalDal.IsExists(x => x.Id == id));
+            return new Result(_rentalDal.IsExists(x => x.Id == id));
         }
 
         public IDataResult<Rental> GetById(int id)
         {
-            var result = this.rentalDal.Get(c => c.Id == id);
+            var result = _rentalDal.Get(c => c.Id == id);
             if (result != null)
                 return new SuccessDataResult<Rental>(result);
             else
-                return new ErrorDataResult<Rental>(result, "NotFound");
+                return new ErrorDataResult<Rental>(result, Messages.RentalNotFound);
         }
 
         public IDataResult<List<Rental>> GetAll()
         {
-            return new SuccessDataResult<List<Rental>>(this.rentalDal.GetAll());
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
 
         public int GetCountOfAll()
         {
-            return this.rentalDal.GetCount();
+            return _rentalDal.GetCount();
         }
 
         public IResult IsReturn(int id)
         {
-            var result = this.rentalDal.GetRentalDetails(x => x.CarId == id && x.ReturnDate == null).Data;
+            var result = _rentalDal.GetRentalDetails(x => x.CarId == id && x.ReturnDate == null).Data;
 
             if (result == null) return new SuccessResult(Messages.CarIsReturn);
             else return new ErrorResult(Messages.CarNotReturn);
@@ -72,7 +72,7 @@ namespace Business.Concrete
 
         public IDataResult<RentalDetailDto> GetRentalDto(Expression<Func<Rental, bool>> filter = null)
         {
-            return new SuccessDataResult<RentalDetailDto>(this.rentalDal.GetRentalDto(filter).Data);
+            return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetRentalDto(filter).Data);
         }
 
         public void WriteAll(List<Rental> rentalList)
@@ -81,7 +81,7 @@ namespace Business.Concrete
 
             foreach (Rental r in rentalList)
             {
-                var rentalDto = this.rentalDal.GetRentalDto(x => x.Id == r.Id).Data;
+                var rentalDto = _rentalDal.GetRentalDto(x => x.Id == r.Id).Data;
                 rentalDtoList.Add(rentalDto);
             }
 

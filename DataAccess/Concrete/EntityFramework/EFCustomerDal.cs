@@ -18,10 +18,10 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from customer in filter == null ? context.Customers : context.Customers.Where(filter)
                              join user in context.Users
-                             on customer.UserId equals user.UserId
+                             on customer.UserId equals user.Id
                              select new CustomerDetailDto
                              {
-                                 Id = user.UserId,
+                                 Id = user.Id,
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Email = user.Email,
@@ -38,10 +38,10 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from customer in filter == null ? context.Customers : context.Customers.Where(filter)
                              join user in context.Users
-                             on customer.UserId equals user.UserId
+                             on customer.UserId equals user.Id
                              select new CustomerDetailDto
                              {
-                                 Id = user.UserId,
+                                 Id = user.Id,
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Email = user.Email,

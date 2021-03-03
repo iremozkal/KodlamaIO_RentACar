@@ -11,12 +11,6 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-
-// Arabanın resmi yoksa
-//File.Copy(carImage.ImagePath, Paths.DefaultImagePath);
-//carImage.ImagePath = Paths.DefaultImagePath;
-//carImage.Date = DateTime.Now;
 
 namespace Business.Concrete
 {

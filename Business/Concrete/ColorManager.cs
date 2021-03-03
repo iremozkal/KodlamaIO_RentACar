@@ -11,53 +11,53 @@ namespace Business.Concrete
 {
     public class ColorManager : IColorService
     {
-        private readonly IColorDal colorDal;
+        private readonly IColorDal _colorDal;
 
-        public ColorManager(IColorDal _colorDal)
+        public ColorManager(IColorDal colorDal)
         {
-            colorDal = _colorDal;
+            _colorDal = colorDal;
         }
 
         public IDataResult<Color> Add(Color color)
         {
-            this.colorDal.Add(color);
+           _colorDal.Add(color);
             return new SuccessDataResult<Color>(color, Messages.AddSuccess);
         }
 
         public IDataResult<Color> Update(Color color)
         {
-            this.colorDal.Update(color);
+           _colorDal.Update(color);
             return new SuccessDataResult<Color>(color, Messages.UpdateSuccess);
         }
 
         public IDataResult<Color> Delete(Color color)
         {
-            this.colorDal.Delete(color);
+           _colorDal.Delete(color);
             return new SuccessDataResult<Color>(color, Messages.DeleteSuccess);
         }
 
         public IResult IsExistById(int id)
         {
-            return new Result(this.colorDal.IsExists(x => x.Id == id));
+            return new Result(_colorDal.IsExists(x => x.Id == id));
         }
 
         public IDataResult<Color> GetById(int id)
         {
-            var result = this.colorDal.Get(c => c.Id == id);
+            var result = _colorDal.Get(c => c.Id == id);
             if (result != null)
                 return new SuccessDataResult<Color>(result);
             else
-                return new ErrorDataResult<Color>(result, "NotFound");
+                return new ErrorDataResult<Color>(result, Messages.ColorNotExist);
         }
 
         public IDataResult<List<Color>> GetAll()
         {
-            return new SuccessDataResult<List<Color>>(this.colorDal.GetAll());
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
         public int GetCountOfAll()
         {
-            return this.colorDal.GetCount();
+            return _colorDal.GetCount();
         }
 
         public void WriteAll(List<Color> colorList)

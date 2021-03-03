@@ -6,65 +6,64 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Business.Concrete
 {
     public class CustomerManager : ICustomerService
     {
-        private readonly ICustomerDal customerDal;
+        private readonly ICustomerDal _customerDal;
 
-        public CustomerManager(ICustomerDal _customerDal)
+        public CustomerManager(ICustomerDal customerDal)
         {
-            customerDal = _customerDal;
+            _customerDal = customerDal;
         }
 
         public IDataResult<Customer> Add(Customer customer)
         {
-            this.customerDal.Add(customer);
+            _customerDal.Add(customer);
             return new SuccessDataResult<Customer>(customer, Messages.AddSuccess);
         }
 
         public IDataResult<Customer> Update(Customer customer)
         {
-            this.customerDal.Update(customer);
+            _customerDal.Update(customer);
             return new SuccessDataResult<Customer>(customer, Messages.UpdateSuccess);
         }
 
         public IDataResult<Customer> Delete(Customer customer)
         {
-            this.customerDal.Delete(customer);
+            _customerDal.Delete(customer);
             return new SuccessDataResult<Customer>(customer, Messages.DeleteSuccess);
         }
 
         public IResult IsExistById(int id)
         {
-            return new Result(this.customerDal.IsExists(x => x.UserId == id));
+            return new Result(_customerDal.IsExists(x => x.UserId == id));
         }
 
         public IDataResult<Customer> GetById(int id)
         {
-            var result = this.customerDal.Get(c => c.UserId == id);
+            var result = _customerDal.Get(c => c.UserId == id);
             if (result != null)
                 return new SuccessDataResult<Customer>(result);
             else
-                return new ErrorDataResult<Customer>(result, "NotFound");
+                return new ErrorDataResult<Customer>(result, Messages.CustomerNotFound);
         }
 
         public IDataResult<List<Customer>> GetAll()
         {
-            return new SuccessDataResult<List<Customer>>(this.customerDal.GetAll());
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
         public int GetCountOfAll()
         {
-            return this.customerDal.GetCount();
+            return _customerDal.GetCount();
         }
 
         public IDataResult<CustomerDetailDto> GetCustomerDto(Expression<Func<Customer, bool>> filter = null)
         {
-            return new SuccessDataResult<CustomerDetailDto>(this.customerDal.GetCustomerDto(filter).Data);
+            return new SuccessDataResult<CustomerDetailDto>(_customerDal.GetCustomerDto(filter).Data);
         }
 
         public void WriteAll(List<Customer> customerList)
@@ -73,7 +72,7 @@ namespace Business.Concrete
 
             foreach (Customer c in customerList)
             {
-                var customerDto = this.customerDal.GetCustomerDto(x => x.UserId == c.UserId).Data;
+                var customerDto = _customerDal.GetCustomerDto(x => x.UserId == c.UserId).Data;
                 customerDtoList.Add(customerDto);
             }
 

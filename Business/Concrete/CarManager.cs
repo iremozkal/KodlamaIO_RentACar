@@ -1,6 +1,9 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -24,7 +27,9 @@ namespace Business.Concrete
             _brandService = brandService;
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarValidator))]
+        [SecuredOperation("car.add")]
         public IDataResult<Car> Add(Car car)
         {
             IResult result = BusinessRules.Run(
@@ -39,6 +44,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(car, Messages.AddSuccess);
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarValidator))]
         public IDataResult<Car> Update(Car car)
         {
@@ -65,6 +71,7 @@ namespace Business.Concrete
             return new Result(_carDal.IsExists(x => x.Id == id));
         }
 
+        [CacheAspect]
         public IDataResult<Car> GetById(int id)
         {
             var result = _carDal.Get(c => c.Id == id);
@@ -74,6 +81,8 @@ namespace Business.Concrete
                 return new ErrorDataResult<Car>(result, "NotFound");
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());

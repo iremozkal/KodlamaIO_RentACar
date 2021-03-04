@@ -11,7 +11,7 @@ regard of AOP, Validation Aspect is created with Autofac using Interceptors. Flu
 
 ## Technologies  
 
-| _**present - v2.0**_ | _**v1.0 - v1.8**_ |
+| _**v2.0 - present**_ | _**v1.0 - v1.8**_ |
 | -- | -- |
 | Visual Studio 2019 | Visual Studio 2012 |
 | Asp.Net Core 3.1 | .Net Framework 4.5 |

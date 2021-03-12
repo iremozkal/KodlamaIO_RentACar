@@ -1,4 +1,4 @@
-# Rent A Car Project
+# Rent A Car Project - Back End
 
 Kodlama.io - Software Bootcamp.
 
@@ -6,12 +6,12 @@ Kodlama.io - Software Bootcamp.
 The project consists of 5 layers: Entities, DataAccess, Business, Core, ConsoleUI and WebAPI.  
 For each entity (car, brand, color, customer, user, rental, car image), there is a menu screen for related operations in ConsoleManager. Each operation is controlled by its own manager and the manager uses the Dal classes to implement crud operations. All data access layers implement generic IEntityRepository interface as a common outline.  
 Autofac IoC Container is used for Dependency Injection and Aspect Oriented Programming. Validation is a Cross Cutting Concern and as 
-regard of AOP, Validation Aspect is created with Autofac using Interceptors. FluentValidation is the Validation Tool used for the verification process.
+regard of AOP, Validation Aspect is created with Autofac using Interceptors. FluentValidation is the Validation Tool used for the verification process.  
 
 
 ## Technologies  
 
-| _**v2.0 - present**_ | _**v1.0 - v1.8**_ |
+| _**present v3.0 ... v2.0**_ | _**v1.8 ... v1.0**_ |
 | -- | -- |
 | Visual Studio 2019 | Visual Studio 2012 |
 | Asp.Net Core 3.1 | .Net Framework 4.5 |
@@ -34,4 +34,5 @@ so that it can create the correct object for the given type. After that, it auto
 
 
 ### Other Camp Works
+[Front End Side of The Project](https://github.com/iremozkal/KodlamaIO_RentACar_FrontEnd)  
 [repl.it/@iiremozkal](https://repl.it/@iiremozkal)

@@ -11,6 +11,6 @@ namespace DataAccess.Abstract
     public interface ICustomerDal : IEntityRepository<Customer>
     {
         IDataResult<CustomerDetailDto> GetCustomerDto(Expression<Func<Customer, bool>> filter = null);
-        IDataResult<List<CustomerDetailDto>> GetCustomerDetails(Expression<Func<Customer, bool>> filter = null);
+        IDataResult<List<CustomerDetailDto>> GetAllCustomerDetails(Expression<Func<Customer, bool>> filter = null);
     }
 }

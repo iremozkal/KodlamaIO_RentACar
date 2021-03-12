@@ -30,15 +30,15 @@ namespace DataAccess.Concrete.EntityFramework
                                  CustomerName = user.FirstName + " " + user.LastName,
                                  CarId = car.Id,
                                  CarName = car.Description,
-                                 RentDate = rental.RentDate,
-                                 ReturnDate = rental.ReturnDate
+                                 RentDate = rental.RentDate.ToShortDateString(),
+                                 ReturnDate = rental.ReturnDate.Value.ToShortDateString()
                              };
 
                 return new SuccessDataResult<RentalDetailDto>(result.FirstOrDefault());
             }
         }
 
-        public IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
+        public IDataResult<List<RentalDetailDto>> GetAllRentalDetails(Expression<Func<Rental, bool>> filter = null)
         {
             using (CarRentContext context = new CarRentContext())
             {
@@ -56,8 +56,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  CustomerName = user.FirstName + " " + user.LastName,
                                  CarId = car.Id,
                                  CarName = car.Description,
-                                 RentDate = rental.RentDate,
-                                 ReturnDate = rental.ReturnDate
+                                 RentDate = rental.RentDate.ToShortDateString(),
+                                 ReturnDate = rental.ReturnDate.Value.ToShortDateString()
                              };
 
                return new SuccessDataResult<List<RentalDetailDto>>(result.ToList());

@@ -32,7 +32,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public IDataResult<List<CustomerDetailDto>> GetCustomerDetails(Expression<Func<Customer, bool>> filter = null)
+        public IDataResult<List<CustomerDetailDto>> GetAllCustomerDetails(Expression<Func<Customer, bool>> filter = null)
         {
             using (CarRentContext context = new CarRentContext())
             {

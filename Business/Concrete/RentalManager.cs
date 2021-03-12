@@ -64,7 +64,7 @@ namespace Business.Concrete
 
         public IResult IsReturn(int id)
         {
-            var result = _rentalDal.GetRentalDetails(x => x.CarId == id && x.ReturnDate == null).Data;
+            var result = _rentalDal.GetAllRentalDetails(x => x.CarId == id && x.ReturnDate == null).Data;
 
             if (result == null) return new SuccessResult(Messages.CarIsReturn);
             else return new ErrorResult(Messages.CarNotReturn);
@@ -73,6 +73,11 @@ namespace Business.Concrete
         public IDataResult<RentalDetailDto> GetRentalDto(Expression<Func<Rental, bool>> filter = null)
         {
             return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetRentalDto(filter).Data);
+        }
+
+        public IDataResult<List<RentalDetailDto>> GetAllRentalDetails(Expression<Func<Rental, bool>> filter = null)
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetAllRentalDetails(filter).Data);
         }
 
         public void WriteAll(List<Rental> rentalList)
@@ -92,8 +97,8 @@ namespace Business.Concrete
         {
             foreach (RentalDetailDto r in rentalDtoList)
                 Console.WriteLine("Rental No: #{0,-3}   Customer: #{1}- {2,-15}  Car: #{3}- {4,-5}   Rent Date: {5,-10}   Return Date: {6}",
-                   r.RentalNo, r.CustomerId, r.CustomerName, r.CarId, r.CarName, r.RentDate.ToShortDateString(),
-                   r.ReturnDate.HasValue ? r.ReturnDate.Value.ToShortDateString() : "Not return yet.");
+                   r.RentalNo, r.CustomerId, r.CustomerName, r.CarId, r.CarName, r.RentDate,
+                   (r.ReturnDate != "" || r.ReturnDate != null) ? r.ReturnDate : "Not return yet.");
             Console.WriteLine();
         }
     }

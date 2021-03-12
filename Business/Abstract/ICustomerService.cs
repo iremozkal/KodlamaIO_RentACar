@@ -11,5 +11,6 @@ namespace Business.Abstract
     public interface ICustomerService : IService<Customer>
     {
         IDataResult<CustomerDetailDto> GetCustomerDto(Expression<Func<Customer, bool>> filter = null);
+        IDataResult<List<CustomerDetailDto>> GetAllCustomerDetails(Expression<Func<Customer, bool>> filter = null); 
     }
 }

@@ -131,8 +131,8 @@ namespace Business.Concrete
         public void WriteAllCarDetails(List<CarDetailDto> carDtoList)
         {
             foreach (CarDetailDto c in carDtoList)
-                Console.WriteLine("ID: #{0,-5}   Name: {1,-10}   Brand: {2,-10}   Color: {3,-10}   Daily Price: {4}",
-                    c.CarId, c.CarName, c.BrandName, c.ColorName, c.DailyPrice.ToString("0.00"));
+                Console.WriteLine("ID: #{0,-5}   Name: {1,-10}   Brand: {2,-10}   Color: {3,-10}   Model Year: {4,-10}   Daily Price: {5}",
+                    c.CarId, c.CarName, c.BrandName, c.ColorName, c.ModelYear, c.DailyPrice.ToString("0.00"));
             Console.WriteLine();
         }
 

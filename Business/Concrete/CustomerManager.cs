@@ -66,6 +66,11 @@ namespace Business.Concrete
             return new SuccessDataResult<CustomerDetailDto>(_customerDal.GetCustomerDto(filter).Data);
         }
 
+        public IDataResult<List<CustomerDetailDto>> GetAllCustomerDetails(Expression<Func<Customer, bool>> filter = null)
+        {
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetAllCustomerDetails(filter).Data);
+        }
+
         public void WriteAll(List<Customer> customerList)
         {
             List<CustomerDetailDto> customerDtoList = new List<CustomerDetailDto>();

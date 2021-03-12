@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace WebAPI.Controllers
 {
@@ -19,6 +20,15 @@ namespace WebAPI.Controllers
         public IActionResult GetAll()
         {
             var result = this._carService.GetAll();
+
+            if (result.Success == true) return Ok(result);
+            else return BadRequest(result.Message);
+        }
+
+        [HttpGet("getalldetails")]
+        public IActionResult GetAllCarDetails()
+        {
+            var result = this._carService.GetAllCarDetails();
 
             if (result.Success == true) return Ok(result);
             else return BadRequest(result.Message);

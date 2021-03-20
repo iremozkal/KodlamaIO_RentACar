@@ -19,7 +19,7 @@
         public static string CarImageCountError = "(-) The quota of the images for this car is full. You cannot add more images.";
         public static string IncorrectFileExtension = "(-) Incorrect file extension.";
         public static string ImageNotFound = "(-) The image is not found in the folder.";
-        public static string DefaultImageAdded = "(+) Default image has been added.";
+        public static string DefaultImageShown = "(+) Default image has been shown.";
         public static string ChosenImageAdded = "(+) Chosen image has been added.";
         public static string AuthorizationDenied = "(-) You are not authorized.";
         public static string SuccessfulRegister = "(+) Successful Register."; 

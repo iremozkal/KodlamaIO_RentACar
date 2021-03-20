@@ -98,7 +98,7 @@ namespace Business.Concrete
             if (result.Count == 0)
             {
                 return new SuccessDataResult<List<CarImage>>(new List<CarImage> {
-                    new CarImage { CarId = carId, ImagePath = Paths.DefaultImagePath, Date = DateTime.Now } }, Messages.DefaultImageAdded);
+                    new CarImage { CarId = carId, ImagePath = Paths.DefaultImagePath, Date = DateTime.Now } }, Messages.DefaultImageShown);
             }
 
             return new SuccessDataResult<List<CarImage>>(result, Messages.ChosenImageAdded);

@@ -93,26 +93,26 @@ namespace Business.Concrete
             return _carDal.GetCount();
         }
 
-        public IDataResult<List<Car>> GetAllCarsByBrandId(int id)
+        public IDataResult<List<CarDetailDto>> GetAllCarsByBrandId(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.BrandId == id));
         }
 
-        public IDataResult<List<Car>> GetAllCarsByColorId(int id)
+        public IDataResult<List<CarDetailDto>> GetAllCarsByColorId(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
-
-        }
-
-        public IDataResult<List<Car>> GetAllCarsByDailyPrice(decimal min, decimal max)
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.ColorId == id));
 
         }
 
-        public IDataResult<List<Car>> GetAllCarsByModelYear(int year)
+        public IDataResult<List<CarDetailDto>> GetAllCarsByDailyPrice(decimal min, decimal max)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ModelYear == year));
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.DailyPrice >= min && c.DailyPrice <= max));
+
+        }
+
+        public IDataResult<List<CarDetailDto>> GetAllCarsByModelYear(int year)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.ModelYear == year));
         }
 
         public IDataResult<List<CarDetailDto>> GetAllCarDetails(Expression<Func<Car, bool>> filter = null)

@@ -7,8 +7,8 @@ namespace Business.Constants
 {
     public static class Paths
     {
-        public static string ImagesFolderPath = Directory.GetCurrentDirectory() + @"\Images";
+        public static string ImagesFolderPath = Directory.GetCurrentDirectory() + @"\wwwroot\Images";
 
-        public static string DefaultImagePath = Directory.GetCurrentDirectory() + @"\Images\default.png";
+        public static string DefaultImagePath = Directory.GetCurrentDirectory() + @"\wwwroot\Images\default.png";
     }
 }
